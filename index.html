@@ -1,944 +1,1247 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BushiDAO ホワイトペーパー v0.1</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500&family=Shippori+Mincho:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<title>BushiDAO Whitepaper v1.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;900&family=Noto+Sans+JP:wght@300;400;500;700&family=Cinzel:wght@400;600;900&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --ink: #1a1008;
-    --paper: #f5f0e8;
-    --gold: #c8922a;
-    --gold-light: #e8c060;
-    --red: #8b1a1a;
-    --muted: #6b5c45;
-    --border: #c8b89a;
-    --code-bg: #1e1812;
-    --code-text: #d4c5a0;
-    --accent-green: #2d5a3d;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    background: var(--paper);
-    color: var(--ink);
-    font-family: 'Noto Serif JP', serif;
-    font-size: 15px;
-    line-height: 1.9;
-    background-image:
-      radial-gradient(ellipse at 10% 20%, rgba(200,146,42,0.04) 0%, transparent 50%),
-      radial-gradient(ellipse at 90% 80%, rgba(139,26,26,0.03) 0%, transparent 50%);
-    min-height: 100vh;
-  }
-  .banner-top {
-    background: var(--ink);
-    padding: 8px 0;
-    text-align: center;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 11px;
-    color: var(--gold);
-    letter-spacing: 2px;
-  }
-  .hero {
-    background: var(--ink);
-    padding: 60px 40px 50px;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero::before {
-    content: '武士';
-    position: absolute;
-    right: -20px;
-    top: -20px;
-    font-size: 220px;
-    font-family: 'Shippori Mincho', serif;
-    color: rgba(200,146,42,0.07);
-    line-height: 1;
-    pointer-events: none;
-  }
-  .hero-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
-  .hero-eyebrow {
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 11px;
-    color: var(--gold);
-    letter-spacing: 4px;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .hero-eyebrow::before {
-    content: '';
-    display: inline-block;
-    width: 40px;
-    height: 1px;
-    background: var(--gold);
-  }
-  .hero-title {
-    font-family: 'Shippori Mincho', serif;
-    font-size: clamp(28px, 5vw, 52px);
-    font-weight: 700;
-    color: #fff;
-    line-height: 1.2;
-    margin-bottom: 10px;
-  }
-  .hero-title-en {
-    font-family: 'Space Mono', monospace;
-    font-size: clamp(11px, 1.8vw, 14px);
-    color: var(--gold-light);
-    font-weight: 400;
-    letter-spacing: 2px;
-    margin-bottom: 30px;
-    display: block;
-  }
-  .hero-quote {
-    border-left: 3px solid var(--gold);
-    padding: 16px 24px;
-    margin: 24px 0;
-    background: rgba(200,146,42,0.08);
-    border-radius: 0 4px 4px 0;
-  }
-  .hero-quote p { color: var(--gold-light); font-size: 17px; font-style: italic; margin-bottom: 4px; }
-  .hero-quote .quote-sub {
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 11px;
-    color: rgba(232,192,96,0.6);
-    letter-spacing: 1px;
-  }
-  .hero-meta {
-    display: flex;
-    gap: 30px;
-    flex-wrap: wrap;
-    margin-top: 30px;
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    color: rgba(200,146,42,0.7);
-  }
-  .hero-meta span { letter-spacing: 1px; }
-  .container { max-width: 900px; margin: 0 auto; padding: 0 40px 80px; }
-  .toc {
-    background: var(--ink);
-    color: #fff;
-    padding: 40px;
-    margin: 40px 0;
-    border-left: 4px solid var(--gold);
-    position: relative;
-  }
-  .toc::before {
-    content: '目次';
-    position: absolute;
-    top: -14px;
-    left: 40px;
-    background: var(--gold);
-    color: var(--ink);
-    font-family: 'Shippori Mincho', serif;
-    font-size: 13px;
-    font-weight: 700;
-    padding: 2px 14px;
-    letter-spacing: 2px;
-  }
-  .toc-title {
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 11px;
-    color: var(--gold);
-    letter-spacing: 2px;
-    margin-bottom: 24px;
-  }
-  .toc-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  @media (max-width: 600px) { .toc-list { grid-template-columns: 1fr; } }
-  .toc-list li a {
-    color: rgba(255,255,255,0.8);
-    text-decoration: none;
-    font-size: 13px;
-    font-family: 'Noto Sans JP', sans-serif;
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    transition: color 0.2s;
-    line-height: 1.5;
-  }
-  .toc-list li a:hover { color: var(--gold-light); }
-  .toc-num { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--gold); min-width: 24px; }
-  .exec-summary {
-    background: linear-gradient(135deg, #fff9f0 0%, #fdf5e6 100%);
-    border: 1px solid var(--border);
-    border-top: 3px solid var(--gold);
-    padding: 36px 40px;
-    margin: 40px 0;
-    position: relative;
-  }
-  .exec-summary::before {
-    content: 'エグゼクティブ・サマリー';
-    position: absolute;
-    top: -13px;
-    left: 30px;
-    background: var(--gold);
-    color: #fff;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 10px;
-    font-weight: 500;
-    padding: 2px 12px;
-    letter-spacing: 2px;
-  }
-  .section { margin: 64px 0 40px; padding-top: 20px; border-top: 1px solid var(--border); }
-  .section-num {
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    color: var(--gold);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .section-num::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(to right, var(--border), transparent);
-  }
-  .section-title {
-    font-family: 'Shippori Mincho', serif;
-    font-size: clamp(20px, 3vw, 30px);
-    font-weight: 700;
-    color: var(--ink);
-    margin-bottom: 6px;
-    line-height: 1.3;
-  }
-  .section-subtitle {
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 2px;
-    margin-bottom: 28px;
-  }
-  h3 {
-    font-family: 'Shippori Mincho', serif;
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--ink);
-    margin: 32px 0 14px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid var(--border);
-  }
-  h4 {
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--muted);
-    letter-spacing: 1px;
-    margin: 24px 0 10px;
-  }
-  p { margin-bottom: 16px; color: #2a1f10; font-size: 15px; }
-  .table-wrap { overflow-x: auto; margin: 24px 0; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; font-family: 'Noto Sans JP', sans-serif; }
-  th {
-    background: var(--ink);
-    color: var(--gold);
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    padding: 10px 14px;
-    text-align: left;
-    border: 1px solid #333;
-  }
-  td { padding: 10px 14px; border: 1px solid var(--border); vertical-align: top; line-height: 1.7; color: #2a1f10; }
-  tr:nth-child(even) td { background: rgba(200,146,42,0.04); }
-  tr:hover td { background: rgba(200,146,42,0.08); }
-  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin: 24px 0; }
-  .card { background: #fff; border: 1px solid var(--border); border-top: 3px solid var(--gold); padding: 20px; }
-  .card-icon { font-size: 24px; margin-bottom: 10px; }
-  .card-title { font-family: 'Noto Sans JP', sans-serif; font-size: 13px; font-weight: 500; margin-bottom: 8px; }
-  .card-desc { font-size: 12px; color: var(--muted); line-height: 1.7; }
-  .dim-block { background: #fff; border: 1px solid var(--border); padding: 28px 32px; margin: 24px 0; position: relative; }
-  .dim-header { display: flex; align-items: flex-start; gap: 20px; margin-bottom: 18px; }
-  .dim-weight {
-    background: var(--ink);
-    color: var(--gold);
-    font-family: 'Space Mono', monospace;
-    font-size: 22px;
-    font-weight: 700;
-    padding: 10px 14px;
-    min-width: 72px;
-    text-align: center;
-    line-height: 1.1;
-  }
-  .dim-weight small { display: block; font-size: 9px; color: rgba(200,146,42,0.6); letter-spacing: 1px; }
-  .dim-title-block h3 { border: none; padding: 0; margin: 0 0 4px; font-size: 20px; }
-  .dim-title-block .dim-label { font-family: 'Noto Sans JP', sans-serif; font-size: 11px; color: var(--muted); letter-spacing: 1px; }
-  .dim-star { margin-left: auto; background: var(--red); color: #fff; font-size: 10px; font-family: 'Noto Sans JP', sans-serif; padding: 4px 10px; height: fit-content; letter-spacing: 1px; }
-  .code-block {
-    background: var(--code-bg);
-    color: var(--code-text);
-    padding: 20px 24px;
-    font-family: 'Space Mono', monospace;
-    font-size: 12px;
-    line-height: 1.8;
-    margin: 16px 0;
-    overflow-x: auto;
-    border-left: 3px solid var(--gold);
-    position: relative;
-  }
-  .code-block .code-label {
-    position: absolute;
-    top: 0; right: 0;
-    background: var(--gold);
-    color: var(--ink);
-    font-size: 9px;
-    padding: 3px 10px;
-    letter-spacing: 1px;
-    font-weight: 700;
-  }
-  .code-comment { color: #6b7a5e; }
-  .code-keyword { color: #c9956a; }
-  code { background: rgba(200,146,42,0.12); color: var(--red); font-family: 'Space Mono', monospace; font-size: 12px; padding: 2px 7px; border-radius: 2px; }
-  ul, ol { padding-left: 24px; margin-bottom: 16px; }
-  li { margin-bottom: 6px; font-size: 14px; line-height: 1.8; }
-  .check-list { list-style: none; padding-left: 0; }
-  .check-list li { padding-left: 28px; position: relative; margin-bottom: 8px; }
-  .check-list li::before { content: '✅'; position: absolute; left: 0; font-size: 14px; }
-  .x-list { list-style: none; padding-left: 0; }
-  .x-list li { padding-left: 28px; position: relative; }
-  .x-list li::before { content: '❌'; position: absolute; left: 0; }
-  .info-box { border: 1px solid var(--border); padding: 20px 24px; margin: 20px 0; background: #fff; }
-  .info-box.warning { border-color: var(--red); border-left: 4px solid var(--red); background: rgba(139,26,26,0.03); }
-  .info-box.gold { border-color: var(--gold); border-left: 4px solid var(--gold); background: rgba(200,146,42,0.05); }
-  .info-box.dark { background: var(--ink); color: #fff; border-color: var(--ink); }
-  .info-box .box-label { font-family: 'Noto Sans JP', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 1px; margin-bottom: 10px; display: block; }
-  .info-box.gold .box-label { color: var(--gold); }
-  .info-box.warning .box-label { color: var(--red); }
-  .arch-diagram {
-    background: var(--ink); color: #7ec8a0;
-    font-family: 'Space Mono', monospace; font-size: 12px; line-height: 1.7;
-    padding: 28px; margin: 24px 0; overflow-x: auto; white-space: pre;
-  }
-  .roadmap-item { display: flex; gap: 20px; padding: 20px 0; border-bottom: 1px dashed var(--border); }
-  .roadmap-item:last-child { border-bottom: none; }
-  .roadmap-badge { font-family: 'Noto Sans JP', sans-serif; font-size: 11px; font-weight: 700; padding: 6px 12px; min-width: 100px; text-align: center; height: fit-content; }
-  .badge-done { background: var(--accent-green); color: #fff; }
-  .badge-ready { background: var(--gold); color: var(--ink); }
-  .badge-future { background: var(--muted); color: #fff; }
-  .appendix-ref {
-    background: var(--ink); padding: 40px; margin: 60px 0;
-    text-align: center; position: relative; overflow: hidden;
-  }
-  .appendix-ref::before {
-    content: 'APPENDIX';
-    position: absolute; left: 50%; top: 50%;
-    transform: translate(-50%, -50%);
-    font-family: 'Shippori Mincho', serif; font-size: 120px;
-    color: rgba(200,146,42,0.05); font-weight: 700; white-space: nowrap; pointer-events: none;
-  }
-  .appendix-ref-inner { position: relative; z-index: 1; }
-  .appendix-ref h3 { font-family: 'Shippori Mincho', serif; font-size: 22px; color: #fff; border: none; padding: 0; margin: 0 0 8px; }
-  .appendix-ref p { color: rgba(255,255,255,0.6); font-size: 13px; margin: 0 0 24px; }
-  .appendix-items { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 28px; }
-  .appendix-item {
-    background: rgba(200,146,42,0.15); border: 1px solid rgba(200,146,42,0.3);
-    color: var(--gold-light); font-family: 'Noto Sans JP', sans-serif;
-    font-size: 11px; padding: 6px 16px; letter-spacing: 1px;
-  }
-  .appendix-btn {
-    display: inline-block; background: var(--gold); color: var(--ink);
-    font-family: 'Noto Sans JP', sans-serif; font-size: 13px; font-weight: 700;
-    padding: 14px 36px; letter-spacing: 1px; text-decoration: none;
-    transition: all 0.2s; cursor: pointer; border: none;
-  }
-  .appendix-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
-  .footer {
-    background: var(--ink); color: rgba(255,255,255,0.5);
-    padding: 36px 40px; text-align: center;
-    font-family: 'Noto Sans JP', sans-serif; font-size: 11px; letter-spacing: 1px; line-height: 2;
-  }
-  .footer-logo { font-family: 'Shippori Mincho', serif; font-size: 28px; color: var(--gold); margin-bottom: 10px; }
-  .footer-p { color: #c8c8c8; }
-  .gold { color: var(--gold); }
-  .muted { color: var(--muted); font-size: 13px; }
-  .inline-badges { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
-  .badge { font-family: 'Noto Sans JP', sans-serif; font-size: 10px; padding: 4px 12px; letter-spacing: 1px; border: 1px solid; }
-  .badge-gold { border-color: var(--gold); color: var(--gold); }
-  .badge-red { border-color: var(--red); color: var(--red); }
-  .badge-green { border-color: var(--accent-green); color: var(--accent-green); }
-  @media (max-width: 600px) { .container { padding: 0 20px 60px; } .hero { padding: 40px 20px; } }
+:root{--ink:#0a0806;--paper:#f5f0e8;--paper2:#ede8db;--gold:#b8860b;--gold-l:#d4a017;--gold-p:#f0e4b0;--crimson:#8b1a1a;--smoke:#7a7060;--smoke-l:#b0a898;--border:#c8b89a;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:"Noto Sans JP",sans-serif;background:var(--paper);color:var(--ink);font-size:15px;line-height:1.8;overflow-x:hidden;}
+
+/* ── NAV ── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--ink);border-bottom:1px solid rgba(184,134,11,.2);display:flex;align-items:center;height:52px;padding:0 24px;}
+.nav-logo{font-family:"Cinzel",serif;font-size:13px;color:var(--gold);letter-spacing:.18em;cursor:pointer;flex-shrink:0;padding-right:18px;border-right:1px solid rgba(184,134,11,.2);transition:opacity .2s;user-select:none;}
+.nav-logo:hover{opacity:.75;}
+.nav-links{display:flex;align-items:center;overflow-x:auto;scrollbar-width:none;flex:1;padding-left:4px;}
+.nav-links::-webkit-scrollbar{display:none;}
+.nbtn{font-family:"DM Mono",monospace;font-size:9.5px;letter-spacing:.16em;color:rgba(255,255,255,.42);text-transform:uppercase;padding:0 14px;height:52px;display:inline-flex;align-items:center;cursor:pointer;border:none;border-bottom:2px solid transparent;background:none;white-space:nowrap;transition:color .2s,border-color .2s;flex-shrink:0;}
+.nbtn:hover{color:rgba(255,255,255,.76);}
+.nbtn.on{color:var(--gold);border-bottom-color:var(--gold);}
+.npog{margin-left:auto;border:1px solid rgba(184,134,11,.35);height:30px;padding:0 14px;font-size:9px;color:var(--gold);}
+.npog:hover{background:rgba(184,134,11,.1);}
+.npog.on{background:var(--gold);color:var(--ink);}
+.burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:5px;margin-left:auto;}
+.burger span{display:block;width:20px;height:1.5px;background:rgba(255,255,255,.6);}
+.mob{display:none;position:fixed;top:52px;left:0;right:0;background:var(--ink);border-bottom:1px solid rgba(184,134,11,.18);z-index:199;padding:6px 0 14px;}
+.mob.open{display:block;}
+.mob .nbtn{height:auto;padding:12px 22px;width:100%;justify-content:flex-start;border-bottom:none;border-left:2px solid transparent;}
+.mob .nbtn.on{border-left-color:var(--gold);}
+.mob .npog{margin:8px 22px 0;width:auto;height:30px;display:inline-flex;}
+
+/* ── PAGES ── */
+.page{display:none;padding-top:52px;min-height:100vh;}
+.page.on{display:block;animation:fi .28s ease;}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── COVER ── */
+.cover{min-height:calc(100vh - 52px);background:var(--ink);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:60px 24px 80px;}
+.cover::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 40%,rgba(184,134,11,.08) 0%,transparent 70%),repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(184,134,11,.04) 39px,rgba(184,134,11,.04) 40px);}
+.cover-bg{font-family:"Cinzel",serif;font-size:clamp(72px,14vw,148px);font-weight:900;color:transparent;-webkit-text-stroke:1px rgba(184,134,11,.4);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;opacity:.11;white-space:nowrap;}
+.cin{position:relative;z-index:1;text-align:center;max-width:740px;width:100%;}
+.kamon{width:60px;height:60px;margin:0 auto 26px;opacity:.9;}
+.c-eye{font-family:"DM Mono",monospace;font-size:9px;letter-spacing:.36em;color:var(--gold);text-transform:uppercase;margin-bottom:16px;}
+.c-title{font-family:"Noto Serif JP",serif;font-size:clamp(36px,8vw,70px);font-weight:900;color:#fff;line-height:1.1;letter-spacing:.04em;margin-bottom:6px;}
+.c-sub{font-family:"Cinzel",serif;font-size:clamp(10px,1.8vw,15px);color:var(--gold);letter-spacing:.26em;margin-bottom:32px;}
+.c-rule{width:90px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0 auto 28px;}
+.c-tag{font-family:"Noto Serif JP",serif;font-size:clamp(14px,2.2vw,20px);font-weight:300;color:rgba(255,255,255,.82);margin-bottom:5px;line-height:1.7;}
+.c-tag-en{font-family:"Cinzel",serif;font-size:clamp(9px,1.3vw,12px);color:rgba(184,134,11,.7);letter-spacing:.18em;margin-bottom:48px;}
+.c-meta{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;margin-bottom:48px;}
+.c-meta-item{text-align:center;}
+.cml{font-family:"DM Mono",monospace;font-size:8px;letter-spacing:.26em;color:var(--smoke-l);text-transform:uppercase;display:block;margin-bottom:3px;}
+.cmv{font-family:"DM Mono",monospace;font-size:12px;color:var(--gold-l);}
+.c-scroll{display:flex;flex-direction:column;align-items:center;gap:7px;opacity:.32;animation:pulse 2.5s ease-in-out infinite;}
+.c-scroll span{font-family:"DM Mono",monospace;font-size:8px;letter-spacing:.24em;color:var(--gold);text-transform:uppercase;}
+.c-sl{width:1px;height:34px;background:linear-gradient(to bottom,var(--gold),transparent);}
+@keyframes pulse{0%,100%{opacity:.22}50%{opacity:.55}}
+
+/* ── LAYOUT ── */
+.wrap{max-width:840px;margin:0 auto;padding:68px 28px 0;}
+
+/* ── PART DIVIDER ── */
+.pdiv{background:var(--ink);display:flex;align-items:center;gap:24px;padding:36px 28px;margin:68px 0 52px;position:relative;overflow:hidden;}
+.pdiv::after{content:"";position:absolute;right:-10px;top:50%;transform:translateY(-50%);width:150px;height:150px;border:1px solid rgba(184,134,11,.14);border-radius:50%;}
+.pn{font-family:"Cinzel",serif;font-size:60px;font-weight:900;color:rgba(184,134,11,.18);line-height:1;flex-shrink:0;}
+.plbl{font-family:"DM Mono",monospace;font-size:8px;letter-spacing:.36em;color:var(--gold);text-transform:uppercase;display:block;margin-bottom:5px;}
+.pjp{font-family:"Noto Serif JP",serif;font-size:clamp(17px,2.8vw,24px);font-weight:700;color:#fff;line-height:1.3;}
+.pen{font-family:"Cinzel",serif;font-size:clamp(9px,1.3vw,12px);color:var(--gold-l);letter-spacing:.16em;margin-top:3px;}
+
+/* ── SECTIONS ── */
+.sec{margin-bottom:76px;scroll-margin-top:68px;}
+.sh{display:flex;align-items:flex-start;gap:18px;margin-bottom:32px;padding-bottom:22px;border-bottom:1px solid var(--border);}
+.sn{font-family:"Cinzel",serif;font-size:38px;font-weight:900;color:var(--gold-p);line-height:1;min-width:46px;margin-top:4px;}
+.slbl{font-family:"DM Mono",monospace;font-size:8px;letter-spacing:.36em;color:var(--gold);text-transform:uppercase;display:block;margin-bottom:4px;}
+.sjp{font-family:"Noto Serif JP",serif;font-size:clamp(18px,2.8vw,26px);font-weight:900;line-height:1.3;}
+.sen{font-family:"Cinzel",serif;font-size:clamp(9px,1.4vw,12px);color:var(--smoke);letter-spacing:.16em;margin-top:4px;}
+
+/* ── TYPOGRAPHY ── */
+h3{font-family:"Noto Serif JP",serif;font-size:16px;font-weight:700;margin:32px 0 13px;padding-left:13px;border-left:3px solid var(--gold);}
+p{margin-bottom:17px;color:#282420;}
+.lead{font-size:16px;line-height:1.9;font-weight:300;}
+.lead-en{font-size:13px;color:var(--smoke);line-height:1.75;margin-top:-9px;margin-bottom:18px;padding-left:13px;border-left:1px solid var(--border);}
+
+/* ── CALLOUT ── */
+.callout{background:var(--ink);border-left:4px solid var(--gold);padding:22px 26px;margin:26px 0;position:relative;}
+.ci{position:absolute;top:14px;right:18px;font-size:22px;opacity:.12;}
+.ctjp{font-family:"Noto Serif JP",serif;font-size:16px;font-weight:600;color:#fff;line-height:1.7;margin-bottom:5px;}
+.cten{font-family:"Cinzel",serif;font-size:11px;color:var(--gold);letter-spacing:.13em;line-height:1.6;}
+
+/* ── HIGHLIGHT BOX ── */
+.hl{background:var(--paper2);border:1px solid var(--border);padding:20px 24px;margin:22px 0;}
+.hl.gold{background:rgba(184,134,11,.06);border-color:rgba(184,134,11,.3);}
+.hl.red{background:rgba(139,26,26,.04);border-color:rgba(139,26,26,.24);}
+
+/* ── TABLES ── */
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:22px 0;}
+.ctable{width:100%;border-collapse:collapse;font-size:13px;min-width:400px;}
+.ctable th{background:var(--ink);color:var(--gold);font-family:"DM Mono",monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;padding:10px 13px;text-align:left;font-weight:400;}
+.ctable td{padding:10px 13px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.6;}
+.ctable tr:nth-child(even) td{background:var(--paper2);}
+.ctable tr:hover td{background:var(--gold-p);}
+.trad{color:var(--smoke);}
+.new{font-weight:500;}
+.stable{width:100%;border-collapse:collapse;font-size:12.5px;min-width:360px;}
+.stable th{background:var(--paper2);font-family:"DM Mono",monospace;font-size:8.5px;letter-spacing:.13em;text-transform:uppercase;padding:9px 12px;text-align:left;color:var(--smoke);border-bottom:2px solid var(--border);}
+.stable td{padding:9px 12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.6;}
+.stable tr:last-child td{border-bottom:none;}
+.bp{font-family:"DM Mono",monospace;font-size:9.5px;background:rgba(34,139,34,.12);color:#228b22;padding:2px 6px;border-radius:2px;white-space:nowrap;}
+.bf{font-family:"DM Mono",monospace;font-size:9.5px;background:rgba(139,26,26,.12);color:var(--crimson);padding:2px 6px;border-radius:2px;white-space:nowrap;}
+
+/* ── VIRTUES ── */
+.vrow{display:flex;border:1px solid var(--border);margin:22px 0;overflow:hidden;flex-wrap:wrap;}
+.v{flex:1;min-width:60px;text-align:center;padding:17px 5px;border-right:1px solid var(--border);background:var(--paper);transition:background .2s;cursor:default;}
+.v:last-child{border-right:none;}
+.v:hover{background:var(--gold-p);}
+.vk{font-family:"Noto Serif JP",serif;font-size:24px;font-weight:900;color:var(--crimson);display:block;line-height:1.2;}
+.vr{font-family:"Cinzel",serif;font-size:7.5px;letter-spacing:.16em;color:var(--gold);display:block;margin:3px 0;}
+.ve{font-size:9px;color:var(--smoke);}
+
+/* ── PRINCIPLES GRID ── */
+.pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin:22px 0;}
+.pi{background:var(--paper);padding:20px 17px;}
+.pin{font-family:"Cinzel",serif;font-size:28px;font-weight:900;color:var(--gold-p);line-height:1;margin-bottom:6px;}
+.pit{font-family:"Noto Serif JP",serif;font-size:14px;font-weight:700;margin-bottom:6px;}
+.pib{font-size:12px;color:var(--smoke);line-height:1.7;}
+
+/* ── BRIDGE BANNER ── */
+.bridge{background:var(--ink);margin:68px 0 0;padding:48px 32px;display:flex;align-items:center;gap:32px;position:relative;overflow:hidden;cursor:pointer;transition:opacity .2s;}
+.bridge:hover{opacity:.9;}
+.bridge::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 50% 80% at 80% 50%,rgba(184,134,11,.09) 0%,transparent 70%);pointer-events:none;}
+.bridge::after{content:"";position:absolute;right:-40px;top:50%;transform:translateY(-50%);width:200px;height:200px;border:1px solid rgba(184,134,11,.11);border-radius:50%;pointer-events:none;}
+.brl{flex:1;position:relative;z-index:1;}
+.breye{font-family:"DM Mono",monospace;font-size:8px;letter-spacing:.36em;color:var(--gold);text-transform:uppercase;display:block;margin-bottom:9px;}
+.brjp{font-family:"Noto Serif JP",serif;font-size:clamp(19px,3.2vw,28px);font-weight:900;color:#fff;line-height:1.3;margin-bottom:4px;}
+.bren{font-family:"Cinzel",serif;font-size:clamp(10px,1.4vw,13px);color:var(--gold);letter-spacing:.18em;margin-bottom:14px;}
+.brdesc{font-size:13px;color:rgba(255,255,255,.58);line-height:1.75;max-width:460px;}
+.brr{flex-shrink:0;position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:10px;}
+.bric{font-family:"Cinzel",serif;font-size:30px;color:rgba(184,134,11,.38);line-height:1;}
+.brbtn{font-family:"DM Mono",monospace;font-size:9px;letter-spacing:.16em;color:var(--ink);background:var(--gold);padding:10px 20px;text-transform:uppercase;white-space:nowrap;}
+
+/* ── POG HERO ── */
+.pog-hero{background:var(--ink);padding:60px 24px 52px;text-align:center;position:relative;overflow:hidden;}
+.pog-hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 50% 60% at 50% 50%,rgba(184,134,11,.07) 0%,transparent 70%),repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(184,134,11,.03) 39px,rgba(184,134,11,.03) 40px);}
+.phin{position:relative;z-index:1;max-width:600px;margin:0 auto;}
+.pheye{font-family:"DM Mono",monospace;font-size:8.5px;letter-spacing:.36em;color:var(--gold);text-transform:uppercase;margin-bottom:14px;}
+.pht{font-family:"Noto Serif JP",serif;font-size:clamp(26px,5vw,46px);font-weight:900;color:#fff;line-height:1.2;margin-bottom:5px;}
+.phen{font-family:"Cinzel",serif;font-size:clamp(11px,1.7vw,15px);color:var(--gold);letter-spacing:.2em;margin-bottom:18px;}
+.phrule{width:56px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0 auto 18px;}
+.phsub{font-family:"Noto Serif JP",serif;font-size:clamp(12px,1.7vw,15px);color:rgba(255,255,255,.62);line-height:1.7;}
+
+/* ── POG SUBNAV ── */
+.psnav{background:rgba(10,8,6,.97);border-bottom:1px solid rgba(184,134,11,.14);display:flex;overflow-x:auto;scrollbar-width:none;padding:0 20px;position:sticky;top:52px;z-index:100;}
+.psnav::-webkit-scrollbar{display:none;}
+.psnav a{font-family:"DM Mono",monospace;font-size:9px;letter-spacing:.13em;color:rgba(255,255,255,.36);text-transform:uppercase;padding:13px 14px;white-space:nowrap;text-decoration:none;border-bottom:2px solid transparent;transition:all .2s;flex-shrink:0;}
+.psnav a:hover{color:rgba(255,255,255,.7);}
+
+/* ── SECURITY GRID ── */
+.sgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin:22px 0;}
+.si{background:var(--paper);padding:18px 16px;}
+.siic{font-size:18px;margin-bottom:7px;}
+.silbl{font-family:"DM Mono",monospace;font-size:8px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;display:block;margin-bottom:4px;}
+.sid{font-size:12px;color:var(--smoke);line-height:1.65;}
+
+/* ── DIM CARDS ── */
+.dgrid{display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);margin:22px 0;}
+.dcard{background:var(--paper);display:grid;grid-template-columns:68px 1fr;}
+.dw{background:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:17px 9px;text-align:center;}
+.dwn{font-family:"Cinzel",serif;font-size:19px;font-weight:900;color:var(--gold);line-height:1;}
+.dwl{font-family:"DM Mono",monospace;font-size:7px;color:var(--smoke-l);letter-spacing:.09em;margin-top:3px;}
+.db{padding:17px 20px;}
+.dbn{font-family:"Noto Serif JP",serif;font-size:14px;font-weight:700;margin-bottom:3px;}
+.dben{font-family:"DM Mono",monospace;font-size:9px;color:var(--smoke);letter-spacing:.13em;margin-bottom:7px;}
+.dbd{font-size:12.5px;color:var(--smoke);line-height:1.7;}
+.dtag{font-size:9.5px;font-family:"DM Mono",monospace;background:var(--gold-p);color:var(--ink);padding:2px 6px;display:inline-block;margin-top:4px;}
+
+/* ── FORMULA ── */
+.fbox{background:var(--ink);padding:22px 26px;margin:22px 0;font-family:"DM Mono",monospace;font-size:12px;color:var(--gold-l);line-height:2;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:pre;}
+.fc{color:rgba(184,134,11,.48);}
+.fk{color:#e8c97a;}
+.fv{color:#e8e0d0;}
+
+/* ── ROADMAP ── */
+.rm{margin:26px 0;}
+.rmi{display:flex;gap:17px;position:relative;}
+.rmi::before{content:"";position:absolute;left:14px;top:36px;bottom:0;width:1px;background:var(--border);}
+.rmi:last-child::before{display:none;}
+.rmdc{display:flex;flex-direction:column;align-items:center;flex-shrink:0;padding-top:13px;}
+.rmd{width:28px;height:28px;border:2px solid var(--border);background:var(--paper);display:flex;align-items:center;justify-content:center;font-family:"DM Mono",monospace;font-size:9px;color:var(--smoke);flex-shrink:0;z-index:1;}
+.rmd.done{border-color:var(--gold);background:var(--gold);color:var(--ink);}
+.rmd.act{border-color:var(--crimson);color:var(--crimson);}
+.rmc{flex:1;padding:13px 0 34px;}
+.rmph{font-family:"DM Mono",monospace;font-size:8px;letter-spacing:.26em;color:var(--smoke-l);text-transform:uppercase;margin-bottom:3px;}
+.rmt{font-family:"Noto Serif JP",serif;font-size:15px;font-weight:700;margin-bottom:6px;}
+.rmul{list-style:none;font-size:12.5px;color:var(--smoke);line-height:1.8;}
+.rmul li::before{content:"→ ";color:var(--gold);}
+
+/* ── FOOTER ── */
+.footer{background:var(--ink);padding:56px 24px;text-align:center;margin-top:76px;}
+.ftsym{font-family:"Cinzel",serif;font-size:40px;color:rgba(184,134,11,.26);margin-bottom:18px;display:block;}
+.ftn{font-family:"Cinzel",serif;font-size:17px;color:var(--gold);letter-spacing:.26em;margin-bottom:9px;}
+.ftq{font-family:"Noto Serif JP",serif;font-size:14px;color:rgba(255,255,255,.68);margin-bottom:5px;}
+.ften{font-family:"Cinzel",serif;font-size:10.5px;color:var(--gold);letter-spacing:.13em;opacity:.66;margin-bottom:32px;}
+.ftrule{width:48px;height:1px;background:rgba(184,134,11,.26);margin:0 auto 22px;}
+.ftmeta{font-family:"DM Mono",monospace;font-size:9px;color:rgba(255,255,255,.18);letter-spacing:.11em;line-height:2.1;}
+
+.nspec{margin-left:6px;border:1px solid rgba(180,180,180,.28);height:30px;padding:0 14px;font-size:9px;color:rgba(255,255,255,.55);}
+.nspec:hover{background:rgba(255,255,255,.06);}
+.nspec.on{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.45);}
+
+/* ── SPEC PAGE ── */
+.spec-hero{background:linear-gradient(135deg,#0d0b08 0%,#141008 60%,#0a0806 100%);padding:56px 24px 44px;text-align:center;position:relative;overflow:hidden;border-bottom:1px solid rgba(184,134,11,.15);}
+.spec-hero::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(184,134,11,.025) 39px,rgba(184,134,11,.025) 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(184,134,11,.015) 39px,rgba(184,134,11,.015) 40px);}
+.spec-hin{position:relative;z-index:1;max-width:640px;margin:0 auto;}
+.spec-eye{font-family:"DM Mono",monospace;font-size:8.5px;letter-spacing:.38em;color:rgba(184,134,11,.7);text-transform:uppercase;margin-bottom:14px;}
+.spec-title{font-family:"Cinzel",serif;font-size:clamp(22px,4vw,38px);font-weight:900;color:#fff;line-height:1.2;margin-bottom:6px;}
+.spec-sub{font-family:"DM Mono",monospace;font-size:clamp(9px,1.4vw,11px);color:rgba(184,134,11,.6);letter-spacing:.22em;text-transform:uppercase;margin-bottom:20px;}
+.spec-rule{width:56px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0 auto 18px;}
+.spec-desc{font-size:13px;color:rgba(255,255,255,.5);line-height:1.7;}
+.spec-snav{background:rgba(8,6,4,.98);border-bottom:1px solid rgba(184,134,11,.12);display:flex;overflow-x:auto;scrollbar-width:none;padding:0 20px;position:sticky;top:52px;z-index:100;}
+.spec-snav::-webkit-scrollbar{display:none;}
+.spec-snav a{font-family:"DM Mono",monospace;font-size:9px;letter-spacing:.13em;color:rgba(255,255,255,.32);text-transform:uppercase;padding:12px 14px;white-space:nowrap;text-decoration:none;border-bottom:2px solid transparent;transition:all .2s;flex-shrink:0;}
+.spec-snav a:hover{color:rgba(255,255,255,.65);}
+.spec-badge{display:inline-flex;align-items:center;gap:6px;font-family:"DM Mono",monospace;font-size:8.5px;letter-spacing:.16em;color:var(--ink);background:rgba(184,134,11,.75);padding:3px 10px;text-transform:uppercase;margin-bottom:10px;}
+.code-block{background:#0d0b08;border:1px solid rgba(184,134,11,.18);padding:20px 22px;margin:18px 0;font-family:"DM Mono",monospace;font-size:12px;color:#c8c0b0;line-height:1.9;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:pre;}
+.code-block .kw{color:#e8c97a;}
+.code-block .cm{color:rgba(184,134,11,.42);}
+.code-block .st{color:#a8d8b0;}
+.code-block .nm{color:#e8e0d0;}
+.code-block .fn{color:#c8a0e0;}
+.code-block .op{color:rgba(184,134,11,.7);}
+.spec-table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:480px;}
+.spec-table th{background:#0d0b08;color:rgba(184,134,11,.8);font-family:"DM Mono",monospace;font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;padding:10px 14px;text-align:left;font-weight:400;border-bottom:1px solid rgba(184,134,11,.2);}
+.spec-table td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.6;font-size:12.5px;}
+.spec-table tr:nth-child(even) td{background:var(--paper2);}
+.spec-table code{font-family:"DM Mono",monospace;font-size:11px;background:rgba(184,134,11,.08);color:var(--gold);padding:1px 5px;}
+.flag-high{color:#c0392b;font-family:"DM Mono",monospace;font-size:9.5px;}
+.flag-med{color:#b8860b;font-family:"DM Mono",monospace;font-size:9.5px;}
+.flag-low{color:var(--smoke);font-family:"DM Mono",monospace;font-size:9.5px;}
+.const-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin:18px 0;}
+.const-item{background:var(--paper);padding:16px 14px;}
+.const-key{font-family:"DM Mono",monospace;font-size:8.5px;letter-spacing:.14em;color:var(--gold);text-transform:uppercase;display:block;margin-bottom:4px;}
+.const-val{font-family:"DM Mono",monospace;font-size:18px;font-weight:400;color:var(--ink);line-height:1;}
+.const-desc{font-size:11.5px;color:var(--smoke);margin-top:4px;line-height:1.5;}
+/* ── RESPONSIVE ── */
+
+/* ─ Tablet: ≤ 1024px ─ */
+@media(max-width:1024px){
+  .wrap{padding-left:24px;padding-right:24px;}
+  .const-grid{grid-template-columns:repeat(2,1fr);}
+}
+
+/* ─ Mobile: ≤ 768px ─ */
+@media(max-width:768px){
+
+  /* nav */
+  .nav-links{display:none;}
+  .burger{display:flex;}
+  .nav-logo{border-right:none;padding-right:0;}
+
+  /* cover */
+  .cover{padding:44px 18px 60px;}
+  .c-meta{gap:18px;}
+
+  /* part divider */
+  .pdiv{padding:26px 18px;gap:14px;margin:48px 0 38px;}
+  .pdiv::after{display:none;}
+  .pn{font-size:42px;}
+  .pjp{font-size:17px;}
+
+  /* section header */
+  .sn{font-size:32px;min-width:40px;}
+  .sjp{font-size:18px;}
+
+  /* layout */
+  .wrap{padding-left:18px;padding-right:18px;}
+
+  /* bridge banner */
+  .bridge{flex-direction:column;padding:32px 20px;gap:20px;}
+  .brr{flex-direction:row;width:100%;align-items:center;}
+  .bric{display:none;}
+
+  /* PoG hero + subnav */
+  .pog-hero{padding:40px 18px 32px;}
+  .psnav{padding:0 12px;}
+  .psnav a{font-size:8px;padding:11px 10px;}
+
+  /* spec hero + subnav */
+  .spec-hero{padding:40px 18px 32px;}
+  .spec-snav{padding:0 12px;}
+  .spec-snav a{font-size:8px;padding:11px 10px;}
+
+  /* grids */
+  .pgrid{grid-template-columns:1fr;}
+  .sgrid{grid-template-columns:1fr 1fr;}
+  .const-grid{grid-template-columns:repeat(2,1fr);}
+
+  /* dim cards */
+  .dcard{grid-template-columns:58px 1fr;}
+  .dwn{font-size:16px;}
+  .db{padding:14px 15px;}
+
+  /* formula / code */
+  .fbox{font-size:11px;padding:17px 14px;}
+  .code-block{font-size:11px;padding:16px 14px;}
+}
+
+/* ─ Small mobile: ≤ 480px ─ */
+@media(max-width:480px){
+
+  /* cover */
+  .c-title{font-size:34px;}
+  .kamon{width:48px;height:48px;}
+  .c-tag{font-size:15px;}
+  .c-meta{gap:14px;}
+
+  /* typography */
+  body{font-size:14px;}
+  .lead{font-size:14px;}
+  h3{font-size:15px;}
+
+  /* virtues row */
+  .v{min-width:calc(33.33% - 1px);flex:none;padding:13px 4px;}
+  .vk{font-size:21px;}
+  .ve{font-size:8.5px;}
+
+  /* grids */
+  .sgrid{grid-template-columns:1fr;}
+  .const-grid{grid-template-columns:1fr;}
+  .pgrid{grid-template-columns:1fr;}
+
+  /* bridge */
+  .brjp{font-size:18px;}
+  .brdesc{font-size:12.5px;}
+
+  /* tables */
+  .spec-table{font-size:11.5px;}
+  .spec-table th{font-size:8px;padding:8px 10px;}
+  .spec-table td{padding:8px 10px;}
+  .ctable{font-size:12px;}
+  .stable{font-size:11.5px;}
+
+  /* footer */
+  .footer{padding:40px 16px;}
+  .ftsym{font-size:32px;}
+  .ftn{font-size:14px;}
+}
+
+/* ─ Extra small: ≤ 360px ─ */
+@media(max-width:360px){
+  .c-title{font-size:28px;}
+  .v{min-width:calc(50% - 1px);}
+  .pn{font-size:34px;}
+  .spec-title{font-size:20px;}
+  .sn{font-size:26px;}
+}
 </style>
 </head>
 <body>
 
-<div class="banner-top">BushiDAO — Proof of Gi v0.1.0 ｜ 武士道に根ざしたDAOガバナンス</div>
-
-<div class="hero">
-  <div class="hero-inner">
-    <div class="hero-eyebrow">ホワイトペーパー</div>
-    <h1 class="hero-title">BushiDAO</h1>
-    <span class="hero-title-en">BUSHIDAO — PROOF OF GI GOVERNANCE SYSTEM</span>
-    <div class="hero-quote">
-      <p>「義とは、為すべきことを為すこと」</p>
-      <span class="quote-sub">真の名誉とは、一貫した誠実な行動の中にある。</span>
-    </div>
-    <div class="hero-meta">
-      <span>バージョン：v0.1.0</span>
-      <span>作成日：2026-05-31</span>
-      <span>言語：日本語（主）｜ 英語（副）</span>
-      <span>ステータス：完全版</span>
-    </div>
+<!-- ═══ NAV ═══ -->
+<nav class="nav">
+  <div class="nav-logo" onclick="go('home')">⚔ BushiDAO</div>
+  <div class="nav-links">
+    <button class="nbtn on" id="t-home" onclick="go('home')">Home</button>
+    <button class="nbtn" id="t-s01" onclick="go('home','sec01')">名前</button>
+    <button class="nbtn" id="t-s02" onclick="go('home','sec02')">概要</button>
+    <button class="nbtn" id="t-s03" onclick="go('home','sec03')">武士道2.0</button>
+    <button class="nbtn" id="t-s04" onclick="go('home','sec04')">ビジョン</button>
+    <button class="nbtn npog" id="t-pog" onclick="go('pog')">⚖ Proof of Gi</button>
+    <button class="nbtn nspec" id="t-spec" onclick="go('spec')">📄 技術仕様書</button>
   </div>
+  <button class="burger" id="burger" onclick="toggleMob()"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="mob" id="mob">
+  <button class="nbtn" onclick="go('home');toggleMob()">Home</button>
+  <button class="nbtn" onclick="go('home','sec01');toggleMob()">名前の話</button>
+  <button class="nbtn" onclick="go('home','sec02');toggleMob()">概要</button>
+  <button class="nbtn" onclick="go('home','sec03');toggleMob()">武士道2.0</button>
+  <button class="nbtn" onclick="go('home','sec04');toggleMob()">ビジョン</button>
+  <button class="nbtn npog" onclick="go('pog');toggleMob()">⚖ Proof of Gi</button>
+  <button class="nbtn nspec" onclick="go('spec');toggleMob()">📄 技術仕様書</button>
 </div>
 
-<div class="container">
+<!-- ═══════════════════════════════
+     HOME PAGE
+═══════════════════════════════ -->
+<div class="page on" id="pg-home">
 
-  <!-- 目次 -->
-  <div class="toc">
-    <div class="toc-title">目次 — Table of Contents</div>
-    <ul class="toc-list">
-      <li><a href="#sec01"><span class="toc-num">01</span> BushiDAOの理念と使命</a></li>
-      <li><a href="#sec02"><span class="toc-num">02</span> 寺子屋精神 — 相互学習の伝統</a></li>
-      <li><a href="#sec03"><span class="toc-num">03</span> 武士道貢献システム — 概要と設計</a></li>
-      <li><a href="#sec04"><span class="toc-num">04</span> 五つの次元の質的判断</a></li>
-      <li><a href="#sec05"><span class="toc-num">05</span> 技術的実装詳細 — Proof of Gi</a></li>
-      <li><a href="#sec06"><span class="toc-num">06</span> セキュリティ＆安全プロトコル</a></li>
-      <li><a href="#appendix-ref"><span class="toc-num">07A</span> 技術仕様 Appendix →（参照）</a></li>
-    </ul>
-  </div>
-
-  <!-- エグゼクティブ・サマリー -->
-  <div class="exec-summary">
-    <p>BushiDAO（ブシダオ）は、ブロックチェーン上での貢献を<strong>「義（Righteousness / Honor）」</strong>として定量化する初めての DAO ガバナンスシステムです。単なるポイント付与を超え、コミュニティの真の価値と持続可能性を高めるための技術的インフラを提供します。</p>
-    <p>本白書では、武士道哲学に根ざした貢献評価フレームワークを詳述し、<strong>Proof of Gi（義の証明）</strong>の技術実装を完全に開示します。5 つの次元（言語適切性・挨拶の質・貢献内容・セキュリティ意識・対話の深さ）での評価を実証します。</p>
-    <p>「<strong>寺子屋（テラコヤ）</strong>」の精神に基づき、すべてのメンバーが互いに学び合い、成長し続ける場を構築します。🏯</p>
-    <div class="inline-badges">
-      <span class="badge badge-gold">５次元スコアリング</span>
-      <span class="badge badge-gold">品質ゲート制報酬</span>
-      <span class="badge badge-red">アンチゲーミング保護</span>
-      <span class="badge badge-green">ローカル SQLite のみ</span>
+  <!-- カバー -->
+  <section class="cover">
+    <div class="cover-bg">武士</div>
+    <div class="cin">
+      <svg class="kamon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="46" fill="none" stroke="#b8860b" stroke-width="1.5"/>
+        <circle cx="50" cy="50" r="36" fill="none" stroke="#b8860b" stroke-width="0.5" opacity="0.5"/>
+        <line x1="28" y1="28" x2="72" y2="72" stroke="#b8860b" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="72" y1="28" x2="28" y2="72" stroke="#b8860b" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="50" cy="50" r="6" fill="none" stroke="#b8860b" stroke-width="1.5"/>
+        <circle cx="50" cy="50" r="2.5" fill="#b8860b"/>
+      </svg>
+      <div class="c-eye">Whitepaper v1.0 — 完全統合版</div>
+      <div class="c-title">BushiDAO</div>
+      <div class="c-sub">PROOF OF GI — BUSHIDO GOVERNANCE</div>
+      <div class="c-rule"></div>
+      <div class="c-tag">「義とは、為すべきことを為すこと」</div>
+      <div class="c-tag-en">Righteousness is found in doing what must be done.</div>
+      <div class="c-meta">
+        <div class="c-meta-item"><span class="cml">Version</span><span class="cmv">v1.0.0</span></div>
+        <div class="c-meta-item"><span class="cml">Status</span><span class="cmv">Phase 0→1</span></div>
+        <div class="c-meta-item"><span class="cml">Language</span><span class="cmv">JP / EN</span></div>
+        <div class="c-meta-item"><span class="cml">Date</span><span class="cmv">2026.06</span></div>
+      </div>
+      <div class="c-scroll"><span>Scroll</span><div class="c-sl"></div></div>
     </div>
-  </div>
+  </section>
 
-  <!-- セクション 01 -->
-  <div id="sec01" class="section">
-    <div class="section-num">Section 01</div>
-    <h2 class="section-title">BushiDAOの理念と使命</h2>
-    <div class="section-subtitle">THE PHILOSOPHY &amp; MISSION</div>
+  <div class="wrap">
 
-    <p>Web3 ガバナンスの従来モデルは、シンプルなトークン投票から、二次投票や評判加重プロトコルへと進化してきました。しかし技術的な洗練さにもかかわらず、根本的な問いが残されています：</p>
-
-    <div class="info-box gold">
-      <span class="box-label">核心的問い</span>
-      <p style="font-size:17px; font-style:italic; margin:0;">「真に意味のある貢献とは、何か？」🤔</p>
+    <!-- PART I -->
+    <div class="pdiv">
+      <div class="pn">I</div>
+      <div><span class="plbl">Part One</span><div class="pjp">外から見えるBushiDAO</div><div class="pen">BushiDAO from the Outside — for the curious newcomer</div></div>
     </div>
 
-    <p>この問いから生まれたのが、<strong>Proof of Gi（義の証明）</strong>です。武士道（Bushido）の視点を通じて、オンチェーン上の貢献を定量化する先駆的なアプローチです。</p>
+    <!-- 01 名前 -->
+    <section class="sec" id="sec01">
+      <div class="sh">
+        <div class="sn">01</div>
+        <div><span class="slbl">Chapter One</span><div class="sjp">名前の話から始めよう</div><div class="sen">It Starts with the Name</div></div>
+      </div>
+      <p class="lead">「BushiDAO」という名前を最初に聞いたとき、何かひっかかりませんでしたか？語呂がいい。口に出すと気持ちいい。そして少し考えていると、あることに気づきます。</p>
+      <p class="lead-en">When you first heard "BushiDAO", something probably clicked. The sound is good. It rolls off the tongue. And as you sit with it, something becomes clear.</p>
+      <div class="callout">
+        <div class="ci">⚔</div>
+        <div class="ctjp">忍者にはすでにNinja DAOがある。じゃあ侍は？「侍DAO」より……「武士DAO」。しっくりくる。</div>
+        <div class="cten">Ninja already has Ninja DAO. So what about the samurai? "Samurai DAO" feels off. "Bushi DAO"... fits.</div>
+      </div>
+      <p>武道を通じて世界5億人がその文化に触れている。コカ・コーラとペプシのように、ナイキとアディダスのように——Ninja DAOと並ぶ存在として「武士DAO」が世界に立てるとしたら？</p>
+      <p class="lead-en">500 million people worldwide have touched this culture through martial arts. What if BushiDAO could stand alongside Ninja DAO the way Coke stands with Pepsi, or Nike with Adidas?</p>
+    </section>
 
-    <h3>🌟 ミッション・ステートメント</h3>
-    <p>BushiDAO は、次の原則に基づく持続可能なコミュニティ・ガバナンスを実現します：</p>
-    <ul class="check-list">
-      <li>オンチェーンの行動が、その文脈的な影響によって公正に評価される</li>
-      <li>メンバーが透明な相互評価システムを通じて成長できる</li>
-      <li>貢献が時間をかけて複利的に積み上がる（定期リセットなし）</li>
-      <li>セキュリティ優先の設計がすべての参加者を守る</li>
-      <li>日本の文化的価値観がブロックチェーン技術とシームレスに融合する</li>
-    </ul>
+    <!-- 02 概要 -->
+    <section class="sec" id="sec02">
+      <div class="sh">
+        <div class="sn">02</div>
+        <div><span class="slbl">Chapter Two</span><div class="sjp">BushiDAOって何をするところ？</div><div class="sen">What Is BushiDAO?</div></div>
+      </div>
+      <div class="hl gold">
+        <p style="margin:0;font-family:'Noto Serif JP',serif;font-size:17px;font-weight:700;">「得意なことで貢献し、仲間と高め合い、社会に還元する場所」</p>
+        <p style="margin:7px 0 0;font-size:13px;color:var(--smoke);font-style:italic;">A place to contribute what you're good at, grow alongside others, and give back to the world.</p>
+      </div>
+      <p>Web3の技術やNFTを使いますが、それは手段です。目的は「人が集まり、動き、何かを生み出す場」を作ること。特別な知識は要りません。「面白そう」と感じたなら、もうその入口に立っています。</p>
+      <p class="lead-en">Web3 technology and NFTs are tools, not the point. The point is building a place where people gather, act, and create. No special knowledge required — if something feels interesting, you're already at the door.</p>
+      <h3>今ここで起きていること — What's Already Happening</h3>
+      <p>BushiDAOのDiscordを覗くと、すでにある空気が流れているのがわかります。</p>
+      <div class="hl"><p style="margin:0;text-align:center;font-family:'Noto Serif JP',serif;font-size:15px;letter-spacing:.1em;">「虚無」　→　「参加」　→　「希望・挑戦・志」　→　「喜び」</p></div>
+      <p>初心者が率直に質問する。それに丁寧に返す人がいる。誰かが「Codex触ってみた」と報告する。即座にまとめを作る人が現れる。これは設計された空気ではなく、自然に育っている「場の文化」です。</p>
+    </section>
 
-    <h3>🎯 コア・オブジェクティブ</h3>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>目標</th><th>説明</th><th>技術的実装</th></tr>
-        </thead>
+    <!-- PART II -->
+    <div class="pdiv">
+      <div class="pn">II</div>
+      <div><span class="plbl">Part Two</span><div class="pjp">内側のVision</div><div class="pen">The Vision Inside — for those who've joined and want to go deeper</div></div>
+    </div>
+
+    <!-- 03 武士道2.0 -->
+    <section class="sec" id="sec03">
+      <div class="sh">
+        <div class="sn">03</div>
+        <div><span class="slbl">Chapter Three</span><div class="sjp">「武士道2.0」という気づき</div><div class="sen">The Realization: Bushido 2.0</div></div>
+      </div>
+      <p class="lead">武士道とは、表面的な「かっこよさ」ではありません。義・勇・仁・礼・誠・名誉・忠義——数百年かけて磨かれた「内なる生き方の哲学」です。</p>
+      <div class="vrow">
+        <div class="v"><span class="vk">義</span><span class="vr">GI</span><span class="ve">Righteousness</span></div>
+        <div class="v"><span class="vk">勇</span><span class="vr">YU</span><span class="ve">Courage</span></div>
+        <div class="v"><span class="vk">仁</span><span class="vr">JIN</span><span class="ve">Benevolence</span></div>
+        <div class="v"><span class="vk">礼</span><span class="vr">REI</span><span class="ve">Respect</span></div>
+        <div class="v"><span class="vk">誠</span><span class="vr">SEI</span><span class="ve">Honesty</span></div>
+        <div class="v"><span class="vk">名</span><span class="vr">MEI</span><span class="ve">Honor</span></div>
+        <div class="v"><span class="vk">忠</span><span class="vr">CHU</span><span class="ve">Loyalty</span></div>
+      </div>
+      <p>AI時代の今、この哲学が新しい意味を持ちます。テクノロジーが人間の役割を再定義するほど、「自律・誠実・貢献」という内なる軸の価値は逆に高まる。武士道は、新しい時代と世界の見本となれる日本の姿ではないか——これが「武士道2.0」という発想の核心です。</p>
+      <p class="lead-en">In the AI age, this philosophy finds new meaning. The more technology redefines human roles, the more the value of an inner compass — autonomy, integrity, contribution — rises in return.</p>
+      <h3>伝統の武士道 vs 武士道2.0</h3>
+      <div class="tw"><table class="ctable">
+        <thead><tr><th>伝統の武士道</th><th>Traditional Bushido</th><th>武士道2.0（BushiDAO）</th><th>Bushido 2.0</th></tr></thead>
         <tbody>
-          <tr><td>公正な貢献定量化</td><td>意味のある貢献すべてに適切な報酬</td><td>多次元品質スコアリング（0〜25 pt）</td></tr>
-          <tr><td>持続的な複利成長</td><td>ポイントが永続的に累積される</td><td>SQLite 永続化 ＋ メモリキャッシュ</td></tr>
-          <tr><td>セキュリティ優先設計</td><td>DM ゼロ・秘密鍵ゼロを徹底</td><td>ローカル SQLite のみ ＋ パターン検出</td></tr>
-          <tr><td>文化的整合性</td><td>日本の価値観 → ブロックチェーン</td><td>武士道哲学の統合</td></tr>
-          <tr><td>透明な評価</td><td>明確な基準、検証可能なスコアリング</td><td>全メンバーが参照可能なリファレンス文書</td></tr>
+          <tr><td class="trad">刀・鎧・身分</td><td class="trad">Sword, armor, rank</td><td class="new">スキル・貢献・オンチェーンの評判</td><td class="new">Skills, contribution, on-chain reputation</td></tr>
+          <tr><td class="trad">主君への忠義</td><td class="trad">Loyalty to a lord</td><td class="new">コミュニティへの自発的な誓い</td><td class="new">Voluntary commitment to community mission</td></tr>
+          <tr><td class="trad">名誉ある死</td><td class="trad">Honorable death</td><td class="new">義ある行いの記録（Proof of Gi）</td><td class="new">Record of righteous acts (Proof of Gi)</td></tr>
+          <tr><td class="trad">武士の階級</td><td class="trad">Samurai class system</td><td class="new">誰でも入れる、開かれた道場</td><td class="new">An open dojo — anyone can walk in</td></tr>
         </tbody>
-      </table>
+      </table></div>
+    </section>
+
+    <!-- 04 ビジョン -->
+    <section class="sec" id="sec04">
+      <div class="sh">
+        <div class="sn">04</div>
+        <div><span class="slbl">Chapter Four</span><div class="sjp">ビジョンと設計思想</div><div class="sen">Vision &amp; Design Principles</div></div>
+      </div>
+      <h3>目指すもの — What We're Building Toward</h3>
+      <ul style="list-style:none;margin:0 0 22px;padding:0;">
+        <li style="padding:9px 0;border-bottom:1px solid var(--border);font-size:14px;display:flex;gap:10px;"><span style="color:var(--gold);font-family:'Cinzel',serif;flex-shrink:0;">→</span>「日本を代表するDAO」を超え、世界に新しい生き方のモデルを発信する</li>
+        <li style="padding:9px 0;border-bottom:1px solid var(--border);font-size:14px;display:flex;gap:10px;"><span style="color:var(--gold);font-family:'Cinzel',serif;flex-shrink:0;">→</span>「共感 → 自発的貢献 → 還元」の循環が自然に回るDAOを作る</li>
+        <li style="padding:9px 0;border-bottom:1px solid var(--border);font-size:14px;display:flex;gap:10px;"><span style="color:var(--gold);font-family:'Cinzel',serif;flex-shrink:0;">→</span>メインコンテンツが消えても続く、思想に根ざした持続型DAOを実現する</li>
+        <li style="padding:9px 0;font-size:14px;display:flex;gap:10px;"><span style="color:var(--gold);font-family:'Cinzel',serif;flex-shrink:0;">→</span>AI時代に個人の力を試し・学び・還元し合うプレイグラウンドを提供する</li>
+      </ul>
+      <h3>DAO設計の4原則 — Four Design Principles</h3>
+      <div class="pgrid">
+        <div class="pi"><div class="pin">①</div><div class="pit">同じ方向を向く必要はない</div><div class="pib">一人ひとりが異なる夢・目標を持つことがDAOの強み。多様な軸が共存することで深みと耐久性が生まれる。</div></div>
+        <div class="pi"><div class="pin">②</div><div class="pit">コンテンツが消えても続くDAO</div><div class="pib">武士道という普遍的な哲学を基盤とすることで、特定コンテンツへの依存から自由になる。</div></div>
+        <div class="pi"><div class="pin">③</div><div class="pit">「場の文化」を最重要資産とする</div><div class="pib">温かさ・率直さ・即座の協力——この場の空気そのものがBushiDAOの財産。設計するのではなく、育てる。</div></div>
+        <div class="pi"><div class="pin">④</div><div class="pit">思想と行動で差別化する</div><div class="pib">言葉ではなく在り方で証明する。「またNFTプロジェクトがDAOと言ってる」と見られないために。</div></div>
+      </div>
+    </section>
+
+    <!-- BRIDGE → Proof of Gi -->
+    <div class="bridge" onclick="go('pog')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')go('pog')">
+      <div class="brl">
+        <span class="breye">Part III — Technical Implementation</span>
+        <div class="brjp">Proof of Gi（義の証明）</div>
+        <div class="bren">GOVERNANCE SYSTEM</div>
+        <div class="brdesc">武士道哲学をブロックチェーン上に実装した、BushiDAO独自のガバナンスエンジン。5次元スコアリング・品質ゲート・セキュリティプロトコルを完全解説。</div>
+      </div>
+      <div class="brr">
+        <div class="bric">⚖</div>
+        <div class="brbtn">▶ 技術仕様を読む</div>
+      </div>
     </div>
 
-    <h3>🏯 哲学的基盤：武士道（Bushido）</h3>
-    <p>武士の名誉がその血筋や財産ではなく行いによって測られるように、Proof of Gi はコミュニティメンバーを実際の行動によって評価します。</p>
-    <div class="card-grid">
-      <div class="card"><div class="card-icon">⚖️</div><div class="card-title">実力主義のガバナンス</div><div class="card-desc">貢献の価値 ＞ トークン保有量</div></div>
-      <div class="card"><div class="card-icon">🔍</div><div class="card-title">トラストレスな説明責任</div><div class="card-desc">スコアリング基準の完全透明化</div></div>
-      <div class="card"><div class="card-icon">📈</div><div class="card-title">長期インセンティブ</div><div class="card-desc">ポイントが永続的に複利で蓄積</div></div>
-      <div class="card"><div class="card-icon">🌸</div><div class="card-title">文化的調和</div><div class="card-desc">日本の倫理観 ＋ 分散型技術</div></div>
+  </div><!-- /wrap -->
+
+  <footer class="footer">
+    <span class="ftsym">⚔</span>
+    <div class="ftn">BushiDAO</div>
+    <div class="ftq">「武士道とは死ぬことと見つけたり」</div>
+    <div class="ften">——しかし今の時代、武士道とは生き抜くことと見つけたり。</div>
+    <div class="ftrule"></div>
+    <div class="ftmeta">Whitepaper v1.0 · 2026.06 · Phase 0→1<br>BushiDAO Community · Proof of Gi Governance System<br>寺子屋（テラコヤ）精神 — 相互学習の伝統、永遠に</div>
+  </footer>
+</div><!-- /pg-home -->
+
+
+<!-- ═══════════════════════════════
+     PROOF OF GI PAGE
+═══════════════════════════════ -->
+<div class="page" id="pg-pog">
+
+  <div class="pog-hero">
+    <div class="phin">
+      <div class="pheye">BushiDAO — Part III / Technical Implementation</div>
+      <div class="pht">Proof of Gi</div>
+      <div class="phen">義の証明 — GOVERNANCE ENGINE v0.1</div>
+      <div class="phrule"></div>
+      <div class="phsub">武士道哲学に根ざしたDAOガバナンスシステム。ブロックチェーン上での貢献を「義」として定量化する初めてのアプローチ。</div>
     </div>
   </div>
 
-  <!-- セクション 02 -->
-  <div id="sec02" class="section">
-    <div class="section-num">Section 02</div>
-    <h2 class="section-title">寺子屋（Terakoya）精神</h2>
-    <div class="section-subtitle">MUTUAL LEARNING TRADITION — 相互学習の伝統</div>
+  <nav class="psnav">
+    <a href="#ps05">寺子屋精神</a>
+    <a href="#ps06">Proof of Gi とは</a>
+    <a href="#ps07">貢献システム</a>
+    <a href="#ps08">5次元評価</a>
+    <a href="#ps09">セキュリティ</a>
+    <a href="#ps10">ロードマップ</a>
+  </nav>
 
-    <h3>📜 歴史的背景：寺子屋</h3>
-    <p>寺子屋は、封建時代の日本における草の根的な教育機関です。17 世紀から 19 世紀にかけて、これらのコミュニティ運営の学校では、あらゆる社会階層の子どもたちに読み・書き・そろばん・倫理を教えていました。</p>
-    <div class="card-grid">
-      <div class="card"><div class="card-icon">🏮</div><div class="card-title">コミュニティ自主運営</div><div class="card-desc">階級を問わず学べる場</div></div>
-      <div class="card"><div class="card-icon">📚</div><div class="card-title">すべての人への教育</div><div class="card-desc">商人の子も武士の子も共に学ぶ</div></div>
-      <div class="card"><div class="card-icon">🤝</div><div class="card-title">相互学習</div><div class="card-desc">師も生徒から学ぶ — 双方向の成長</div></div>
-      <div class="card"><div class="card-icon">⭐</div><div class="card-title">倫理教育優先</div><div class="card-desc">暗記より人格形成を重んじる</div></div>
-    </div>
+  <div class="wrap">
 
-    <h3>🌱 Web3 への応用哲学</h3>
-    <h4>現行システムの問題点</h4>
-    <ul class="x-list">
-      <li>「参加にはお金が必要」なモデルが新規貢献者を排除している</li>
-      <li>大量保有者がガバナンスを支配し、真の専門知識が無視される</li>
-      <li>学習への道筋がなく、意義ある参加への成長が困難</li>
-    </ul>
-    <h4>BushiDAO の解決策</h4>
-    <ul class="check-list">
-      <li>全員がゼロポイントからスタート：公平な共創(競争)環境</li>
-      <li>貢献の質 ＞ アイデンティティ：行動が価値を定義する</li>
-      <li>複利成長：一つひとつのポイントが将来の貢献への弾みになる</li>
-      <li>透明なフィードバック：明確な評価基準でポイント獲得条件が一目でわかる</li>
-    </ul>
-
-    <h3>🏛️ 文化的価値観の変換</h3>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>武士道の価値観</th><th>Web3 への翻訳</th><th>技術的実装</th></tr>
-        </thead>
+    <!-- 05 -->
+    <section class="sec" id="ps05">
+      <div class="sh">
+        <div class="sn">05</div>
+        <div><span class="slbl">Chapter Five</span><div class="sjp">寺子屋（Terakoya）精神</div><div class="sen">Mutual Learning Tradition</div></div>
+      </div>
+      <p class="lead">寺子屋は、封建時代の日本における草の根的な教育機関です。17世紀から19世紀にかけて、あらゆる社会階層の子どもたちに読み・書き・そろばん・倫理を教えていました。</p>
+      <p class="lead-en">Terakoya were community-operated schools in feudal Japan — teaching reading, writing, arithmetic, and ethics to all social classes from the 17th to 19th centuries.</p>
+      <div class="sgrid">
+        <div class="si"><div class="siic">🏮</div><span class="silbl">コミュニティ自主運営</span><div class="sid">階級を問わず学べる場。誰でも貢献できる開かれた道場。</div></div>
+        <div class="si"><div class="siic">📚</div><span class="silbl">すべての人への教育</span><div class="sid">商人の子も武士の子も共に学ぶ。全員ゼロポイントからスタート。</div></div>
+        <div class="si"><div class="siic">🤝</div><span class="silbl">相互学習</span><div class="sid">師も生徒から学ぶ——双方向の成長。貢献の質が価値を定義する。</div></div>
+        <div class="si"><div class="siic">⭐</div><span class="silbl">倫理教育優先</span><div class="sid">暗記より人格形成を重んじる。透明なフィードバックで公正評価。</div></div>
+      </div>
+      <h3>文化的価値観の変換 — Cultural Translation</h3>
+      <div class="tw"><table class="ctable">
+        <thead><tr><th>武士道の価値観</th><th>Web3への翻訳</th><th>技術的実装</th></tr></thead>
         <tbody>
-          <tr><td>誠（Sei）— 誠実さ</td><td>正直な貢献、ズルなし</td><td>パターン検出（スパム・自動返信を拒否）</td></tr>
-          <tr><td>義（Gi）— 義理・正義</td><td>Proof of Gi 技術システム</td><td>多次元品質評価</td></tr>
-          <tr><td>礼（Rei）— 礼儀</td><td>丁寧な言葉づかいの尊重</td><td>言語適切性スコアリング（+8〜−1）</td></tr>
-          <tr><td>勇（Yu）— 勇気</td><td>率直なアイデア・正直な質問</td><td>対話深度スコアで双方向性を評価</td></tr>
+          <tr><td><strong>誠（Sei）</strong> — 誠実さ</td><td>正直な貢献、ズルなし</td><td>パターン検出（スパム・自動返信を拒否）</td></tr>
+          <tr><td><strong>義（Gi）</strong> — 義理・正義</td><td>Proof of Gi 技術システム</td><td>多次元品質評価（5次元）</td></tr>
+          <tr><td><strong>礼（Rei）</strong> — 礼儀</td><td>丁寧な言葉づかいの尊重</td><td>言語適切性スコアリング（+8〜−1）</td></tr>
+          <tr><td><strong>勇（Yu）</strong> — 勇気</td><td>率直なアイデア・正直な質問</td><td>対話深度スコアで双方向性を評価</td></tr>
         </tbody>
-      </table>
-    </div>
-  </div>
+      </table></div>
+    </section>
 
-  <!-- セクション 03 -->
-  <div id="sec03" class="section">
-    <div class="section-num">Section 03</div>
-    <h2 class="section-title">武士道貢献システム</h2>
-    <div class="section-subtitle">SYSTEM OVERVIEW &amp; DESIGN — 概要と設計</div>
+    <!-- 06 -->
+    <section class="sec" id="ps06">
+      <div class="sh">
+        <div class="sn">06</div>
+        <div><span class="slbl">Chapter Six</span><div class="sjp">Proof of Gi（義の証明）とは</div><div class="sen">What is Proof of Gi?</div></div>
+      </div>
+      <p class="lead">Web3には「Proof of Work」「Proof of Stake」がある。BushiDAOには「Proof of Gi（義の証明）」がある。</p>
+      <p class="lead-en">Web3 has Proof of Work and Proof of Stake. BushiDAO has Proof of Gi — Proof of Righteousness.</p>
+      <div class="callout">
+        <div class="ci">⚖</div>
+        <div class="ctjp">「義（正しい行い・貢献）」をオンチェーンで記録・評価する仕組み。金銭的インセンティブではなく、精神的価値を基盤にした信頼の構築。</div>
+        <div class="cten">A system to record and evaluate acts of "Gi" — right action, contribution — on-chain. Trust built on spiritual value, not financial incentives.</div>
+      </div>
+      <div class="sgrid">
+        <div class="si"><div class="siic">⚖️</div><span class="silbl">実力主義のガバナンス</span><div class="sid">貢献の価値 ＞ トークン保有量。行動が評価を決める。</div></div>
+        <div class="si"><div class="siic">🔍</div><span class="silbl">トラストレスな説明責任</span><div class="sid">スコアリング基準の完全透明化。全メンバーが参照可能。</div></div>
+        <div class="si"><div class="siic">📈</div><span class="silbl">長期インセンティブ</span><div class="sid">ポイントが永続的に複利で蓄積。リセットなし。</div></div>
+        <div class="si"><div class="siic">🌸</div><span class="silbl">文化的調和</span><div class="sid">日本の倫理観 ＋ 分散型技術のシームレスな融合。</div></div>
+      </div>
+    </section>
 
-    <p>武士道貢献システムは、コミュニティへの参加を持続可能なガバナンス報酬へと変換する、多次元型の自動評価フレームワークです。従来の DAO 報酬スキームとは異なり、本システムは<strong>品質ゲート制の複利成長</strong>を実装しています。</p>
-
-    <h3>📊 システム構造</h3>
-    <div class="arch-diagram">┌─────────────────────────────────────────────────────────────┐
-│              BushiDAO 貢献システム                            │
-│                    Proof of Gi v0.1                         │
-│                                                             │
-│  ┌──────────────┐      ┌──────────────────────┐             │
-│  │   Discord    │─────▶│   メッセージ解析     　 │             │
-│  │   チャンネル 　│ 入力　│  多次元品質スコアリング  │             │
-│  └──────┬───────┘      └──────────┬───────────┘             │
-│         │                         │                         │
-│         ▼                         ▼                         │
-│  ┌──────────────┐      ┌──────────────────────┐             │
-│  │  SQLite DB   │◀─────│    ポイント付与        │             │
-│  │  （ローカル）  │      │   （品質ゲート制）    　│             │
-│  └──────────────┘      └──────────┬───────────┘             │
-│                                   │                         │
-│                         ┌─────────▼─────────┐               │
-│                         │  出力 ／ 通知     　│               │
-│                         │  リーダーボード    　│               │
-│                         └───────────────────┘               │
-│      （全メンバーが透明な評価を通じて成長する）                    │
-└─────────────────────────────────────────────────────────────┘</div>
-
-    <h3>🏗️ 技術コンポーネント</h3>
-
-    <h4>1. データ収集レイヤー</h4>
-    <p>Discord のコミュニティチャンネルからメッセージを収集します（プライベート DM へのアクセスは一切なし）。パターンマッチングによるスレッド紐付けとチャンネル分類を行い、セキュリティフィルターで認証情報の露出を検出します。</p>
-
-    <h4>2. 品質評価エンジン</h4>
-    <p>5 次元加重スコアリング：</p>
-    <div class="code-block">
-      <span class="code-label">PYTHON</span>
-quality_score = (
-    language_appropriateness * 0.20 +   <span class="code-comment"># コミュニティ言語設定との一致</span>
-    greeting_politeness      * 0.15 +   <span class="code-comment"># 単純な「こんにちは」を超えた挨拶</span>
-    substance_value          * 0.40 +   <span class="code-comment"># [⭐ 最重要] 実質的な貢献の質</span>
-    security_awareness       * 0.15 +   <span class="code-comment"># セキュリティ警告へのボーナス</span>
-    conversation_depth       * 0.10     <span class="code-comment"># 双方向対話 vs 一方的発信</span>
+    <!-- 07 -->
+    <section class="sec" id="ps07">
+      <div class="sh">
+        <div class="sn">07</div>
+        <div><span class="slbl">Chapter Seven</span><div class="sjp">武士道貢献システム — 概要と設計</div><div class="sen">Contribution System — Overview &amp; Design</div></div>
+      </div>
+      <p class="lead">コミュニティへの参加を持続可能なガバナンス報酬へと変換する、多次元型の自動評価フレームワーク。<strong>品質ゲート制の複利成長</strong>を実装します。</p>
+      <h3>コア数式 — Core Formula</h3>
+      <div class="fbox"><span class="fk">quality_score</span> = (
+  language_appropriateness × <span class="fv">0.20</span>  <span class="fc"># 言語適切性 (20%)</span>
++ greeting_politeness       × <span class="fv">0.15</span>  <span class="fc"># 挨拶の質 (15%)</span>
++ substance_value           × <span class="fv">0.40</span>  <span class="fc"># ⭐ 実質的貢献 (40%) — 最重要</span>
++ security_awareness        × <span class="fv">0.15</span>  <span class="fc"># セキュリティ意識 (15%)</span>
++ conversation_depth        × <span class="fv">0.10</span>  <span class="fc"># 対話の深さ (10%)</span>
 )
 
-final_points = int((quality_score / 10) * 25)  <span class="code-comment"># 最大 25pt にキャップ</span>
+<span class="fk">final_points</span> = int((<span class="fk">quality_score</span> / 10) × 25)  <span class="fc"># 最大 25pt</span>
 
-<span class="code-comment"># 🚨 品質ゲート — 最重要！</span>
-<span class="code-keyword">IF</span> quality_score >= 6.0 <span class="code-keyword">AND NOT</span> suspicious_pattern():
-    ポイント付与（quality_score に比例）
-<span class="code-keyword">ELSE</span>:
-    ポイント付与なし（品質閾値未達）</div>
-
-    <h4>3. ポイント付与ルール</h4>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>メッセージの種類</th><th>品質スコア</th><th>ポイント</th><th>説明</th></tr>
-        </thead>
+<span class="fk">IF</span> quality_score >= <span class="fv">6.0</span> AND NOT suspicious_pattern():
+    → ポイント付与（quality_score に比例）
+<span class="fk">ELSE</span>:
+    → ポイント付与なし（品質閾値未達）</div>
+      <h3>ポイント付与ルール — Point Allocation Rules</h3>
+      <div class="tw"><table class="stable">
+        <thead><tr><th>メッセージの種類</th><th>品質スコア</th><th>ポイント</th><th>判定</th></tr></thead>
         <tbody>
-          <tr><td>自己紹介 ＋ 目的説明</td><td>5.0 〜 7.0</td><td>10〜15 pt</td><td>背景情報を含む明確な自己紹介</td></tr>
-          <tr><td>価値ある質問・ヘルプ要請</td><td>6.0 〜 8.0</td><td>9〜13 pt</td><td>対話を促す思慮深い質問</td></tr>
-          <tr><td>有益な返答・補足説明</td><td>5.5 〜 7.5</td><td>8〜12 pt</td><td>会話を前進させる実質的な回答</td></tr>
-          <tr><td>詳細な提案・改善案</td><td>7.0 〜 9.0</td><td>14〜18 pt</td><td>根拠を伴う丁寧にまとめられた提案</td></tr>
-          <tr><td>特別な貢献（分析・ガイド等）</td><td>8.0 以上</td><td>16〜25 pt</td><td>高い労力、コミュニティへの利益</td></tr>
-          <tr><td>セキュリティ警告（DM詐欺・秘密鍵）</td><td>+5/+10 ボーナス</td><td>追加付与！</td><td>詐欺・フィッシングのリスクを他者に警告 ✨</td></tr>
+          <tr><td>自己紹介 ＋ 目的説明</td><td>5.0〜7.0</td><td>10〜15 pt</td><td><span class="bp">✅ 付与</span></td></tr>
+          <tr><td>価値ある質問・ヘルプ要請</td><td>6.0〜8.0</td><td>9〜13 pt</td><td><span class="bp">✅ 付与</span></td></tr>
+          <tr><td>有益な返答・補足説明</td><td>5.5〜7.5</td><td>8〜12 pt</td><td><span class="bp">✅ 付与</span></td></tr>
+          <tr><td>詳細な提案・改善案</td><td>7.0〜9.0</td><td>14〜18 pt</td><td><span class="bp">✅ 付与</span></td></tr>
+          <tr><td>特別な貢献（分析・ガイド等）</td><td>8.0以上</td><td>16〜25 pt</td><td><span class="bp">✅ 付与</span></td></tr>
+          <tr><td>セキュリティ警告（DM詐欺・秘密鍵）</td><td>+ボーナス</td><td>+5/+10 pt</td><td><span class="bp">⭐ ボーナス</span></td></tr>
+          <tr><td>「いいね！🔥」「すごい！」など</td><td>1.23</td><td>0 pt</td><td><span class="bf">⛔ 拒否</span></td></tr>
         </tbody>
-      </table>
-    </div>
+      </table></div>
+      <h3>複利成長モデル — Compounding Growth</h3>
+      <div class="hl gold">
+        <p style="margin:0;font-size:13.5px;line-height:1.9;">ポイントはリセットや失効がありません。<br>貢献 #1（+5 pt）＋ 貢献 #10（+8 pt）＋ 貢献 #24（+12 pt）→ 累計 37 pt！<br>一つひとつの積み重ねが長期的な報酬と評価につながります。</p>
+      </div>
+    </section>
 
-    <h4>4. 永続化レイヤー — デュアル書き込み安全モデル</h4>
-    <div class="info-box gold">
-      <span class="box-label">ストレージ設計</span>
-      <p>プライマリ：ローカル SQLite（永続保存）— <code>bushiDAO_points.db</code></p>
-      <p style="margin:0">セカンダリ：セッションメモリ（即時バックアップ）<br><strong>✅ 外部 S3 ／クラウドストレージは一切使用しません</strong> — コミュニティの信頼を守ります！</p>
-    </div>
-
-    <h4>5. スケジューラーレイヤー — 自動発動 評価</h4>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>イベント種別</th><th>トリガー</th><th>頻度</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>日次評価（JST 深夜 0 時）</td><td>時間ベースの 自動発動</td><td>24 時間サイクル — 全コミュニティチャンネル</td></tr>
-          <tr><td>セキュリティスキャン</td><td>パターン検出</td><td>リアルタイム・メッセージ解析</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- セクション 04 -->
-  <div id="sec04" class="section">
-    <div class="section-num">Section 04</div>
-    <h2 class="section-title">パフォーマンス評価基準</h2>
-    <div class="section-subtitle">FIVE-DIMENSION QUALITY FRAMEWORK — 五つの次元の質的判断</div>
-
-    <div class="info-box warning">
-      <span class="box-label">⚠️ 品質閾値ルール</span>
-      <p style="margin:0">最終品質閾値：5 つの次元の合計スコアが <strong>6.0 / 10 以上</strong>でなければ、いかなるポイントも付与されません。この閾値がスパム・自動挨拶ファーミング・ゲーミングを防ぎ、真のコミュニティ参加に報酬を与える要です。</p>
-    </div>
-
-    <!-- 次元 1 -->
-    <div class="dim-block">
-      <div class="dim-header">
-        <div class="dim-weight">20%<small>比重</small></div>
-        <div class="dim-title-block">
-          <h3>📏 言語適切性</h3>
-          <span class="dim-label">Language Appropriateness — 次元 1</span>
+    <!-- 08 -->
+    <section class="sec" id="ps08">
+      <div class="sh">
+        <div class="sn">08</div>
+        <div><span class="slbl">Chapter Eight</span><div class="sjp">五つの次元の質的判断</div><div class="sen">Five-Dimension Quality Framework</div></div>
+      </div>
+      <div class="hl red">
+        <p style="margin:0;font-size:13.5px;"><strong>⚠️ 品質閾値ルール</strong>：5つの次元の合計スコアが <strong>6.0 / 10 以上</strong>でなければ、いかなるポイントも付与されません。この閾値がスパム・自動挨拶ファーミング・ゲーミングを防ぐ要です。</p>
+      </div>
+      <div class="dgrid">
+        <div class="dcard">
+          <div class="dw"><div class="dwn">20%</div><div class="dwl">次元 1</div></div>
+          <div class="db"><div class="dbn">📏 言語適切性</div><div class="dben">Language Appropriateness</div><div class="dbd">コミュニティの言語設定との一致を確認。BushiDAOでは日本語が主要言語。完全な日本語使用で +9.0、スパムパターンで −1.0 のペナルティ。</div></div>
+        </div>
+        <div class="dcard">
+          <div class="dw"><div class="dwn">15%</div><div class="dwl">次元 2</div></div>
+          <div class="db"><div class="dbn">🙏 挨拶の質</div><div class="dben">Greeting Politeness</div><div class="dbd">単純な「こんにちは」を超えた質を評価。温かく誠実な歓迎が報酬を受け、ボットパターンはペナルティ。敬称（さん/様）使用で +7.0。</div></div>
+        </div>
+        <div class="dcard">
+          <div class="dw" style="background:var(--crimson)"><div class="dwn">40%</div><div class="dwl">次元 3</div></div>
+          <div class="db"><div class="dbn">💎 実質的貢献</div><div class="dben">Substantive Contribution — ⭐ 最重要</div><div class="dbd">実質的な価値がなければ、礼儀正しさや言語設定に関わらずポイントは付与されません。詳細な技術分析・ロードマップ提案で最大 +20 点。</div><div class="dtag">⭐ GATEKEEPER DIMENSION</div></div>
+        </div>
+        <div class="dcard">
+          <div class="dw"><div class="dwn">15%</div><div class="dwl">次元 4</div></div>
+          <div class="db"><div class="dbn">🔒 セキュリティ意識</div><div class="dben">Security Awareness</div><div class="dbd">ボーナスポイントシステム。DM詐欺・秘密鍵・フィッシングなどのリスクを警告するメッセージに +5〜+10 ボーナスポイントを付与。</div><div class="dtag">BONUS SYSTEM</div></div>
+        </div>
+        <div class="dcard">
+          <div class="dw"><div class="dwn">10%</div><div class="dwl">次元 5</div></div>
+          <div class="db"><div class="dbn">💬 対話の深さ</div><div class="dben">Engagement Depth</div><div class="dbd">双方向の対話の質を評価。明確な質問・意見の要請で +7.0〜+8.0。一方的な「すごい投稿！🔥」は低評価。</div></div>
         </div>
       </div>
-      <p>コミュニティの言語設定との一致を確認します。BushiDAO では<strong>日本語が主要言語</strong>です。</p>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>スコア</th><th>カテゴリー</th><th>説明</th><th>例</th></tr></thead>
-          <tbody>
-            <tr><td>+9.0</td><td>完全一致</td><td>日本語チャンネルで完全な日本語</td><td>こんにちは、ようこそ！🌸</td></tr>
-            <tr><td>+8.5</td><td>優秀</td><td>適切な日本語使用</td><td>ご質問があればお気軽にどうぞ ✨</td></tr>
-            <tr><td>+6.0〜7.0</td><td>良好</td><td>意図が明確、文脈に適切</td><td>英語チャンネルでの英語のみ</td></tr>
-            <tr><td>+4.0〜5.5</td><td>境界線</td><td>翻訳なしの混在使用</td><td>Hello! / こんにちは（軽微なペナルティ）</td></tr>
-            <tr><td>−1.0</td><td>ペナルティ</td><td>乱暴な言葉、スパムパターン</td><td>自動ボットスパム、侮辱表現</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- 次元 2 -->
-    <div class="dim-block">
-      <div class="dim-header">
-        <div class="dim-weight">15%<small>比重</small></div>
-        <div class="dim-title-block">
-          <h3>🙏 挨拶の質</h3>
-          <span class="dim-label">Greeting Politeness — 次元 2</span>
-        </div>
-      </div>
-      <p>単純な「こんにちは」を超えた、挨拶の質を評価します。アンチゲーミング設計により、温かく誠実な歓迎が報酬を受け、ボットパターンはペナルティの対象になります。</p>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>スコア</th><th>カテゴリー</th><th>説明</th></tr></thead>
-          <tbody>
-            <tr><td>+7.0</td><td>温かい歓迎</td><td>こんにちは @user! ようこそ BushiDAO！＋ 敬称（さん / 様）🌟</td></tr>
-            <tr><td>+5.0〜6.0</td><td>最低限合格</td><td>シンプルな挨拶 ＋ 絵文字 ✅</td></tr>
-            <tr><td>+3.0〜4.0</td><td>事務的</td><td>「Hi! Great project!」— 一方的発信、対話への誘いなし ⚠️</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- 次元 3 -->
-    <div class="dim-block">
-      <div class="dim-header">
-        <div class="dim-weight">40%<small>比重</small></div>
-        <div class="dim-title-block">
-          <h3>💎 実質的貢献</h3>
-          <span class="dim-label">Substantive Contribution — 次元 3 ⭐ 最重要</span>
-        </div>
-        <span class="dim-star">ゲートキーパー</span>
-      </div>
-      <p>これは<strong>ゲートキーパー次元</strong>です。実質的な価値がなければ、礼儀正しさや言語設定に関わらずポイントは付与されません！</p>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>スコア</th><th>品質ティア</th><th>例</th><th>40%加重後</th></tr></thead>
-          <tbody>
-            <tr><td>+15〜+20</td><td>卓越</td><td>詳細な技術分析、ロードマップ提案、ガイド</td><td>+6〜8 pt</td></tr>
-            <tr><td>+10〜+14.9</td><td>強力</td><td>有益な返答、改善提案、技術的な質問</td><td>+4〜6 pt</td></tr>
-            <tr><td>+6.5〜+9.9</td><td>合格</td><td>明確な意図、15 文字以上、2 語以上</td><td>〜2.6〜4.0 pt ✅ 合格</td></tr>
-            <tr><td>+4.0〜+5.9</td><td>不十分</td><td>「いいね！🔥」「すごい！」など</td><td>ポイントなし ⛔</td></tr>
-            <tr><td>−3 ペナルティ</td><td>自動拒否</td><td>繰り返しパターン・スパム検出</td><td>ポイントなし ✗</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- 次元 4 -->
-    <div class="dim-block">
-      <div class="dim-header">
-        <div class="dim-weight">15%<small>比重</small></div>
-        <div class="dim-title-block">
-          <h3>🔒 セキュリティ意識</h3>
-          <span class="dim-label">Security Awareness — 次元 4</span>
-        </div>
-        <span class="dim-star" style="background:var(--accent-green)">ボーナス</span>
-      </div>
-      <p>ボーナスポイントシステムです。DM 詐欺・秘密鍵・フィッシングなどのセキュリティリスクを他のメンバーに警告するメッセージに、ボーナスポイントを付与します。セキュリティを<strong>ポジティブなインセンティブ</strong>にします。</p>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>スコア</th><th>カテゴリー</th><th>ボーナス効果</th></tr></thead>
-          <tbody>
-            <tr><td>+5.0〜+6.0</td><td>具体的なリスク警告あり</td><td>+10 / +5 ボーナスポイント ⭐ 大幅加点</td></tr>
-            <tr><td>+4.0〜+5.0</td><td>標準的なセキュリティ配慮</td><td>最終閾値 ≥6.0 を満たす ✅</td></tr>
-            <tr><td>+3.0</td><td>最低限合格</td><td>次元の最低要件を満たす ✅</td></tr>
-            <tr><td>ペナルティ</td><td>認証情報の露出</td><td>即時拒否 ⛔</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- 次元 5 -->
-    <div class="dim-block">
-      <div class="dim-header">
-        <div class="dim-weight">10%<small>比重</small></div>
-        <div class="dim-title-block">
-          <h3>💬 対話の深さ</h3>
-          <span class="dim-label">Engagement Depth — 次元 5</span>
-        </div>
-      </div>
-      <p>双方向の対話の質を、一方的な発信と比較して評価します。会話を誘発するメッセージは高得点を得て、一方的なアナウンスや空虚な称賛は低得点になります。</p>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>スコア</th><th>品質ティア</th><th>説明</th></tr></thead>
-          <tbody>
-            <tr><td>+7.0〜+8.0</td><td>対話誘発型</td><td>明確な質問、意見・助けの要請 ✅</td></tr>
-            <tr><td>+5.0〜+6.0</td><td>実質的</td><td>詳細なアナウンス型（読み応えのある貢献）</td></tr>
-            <tr><td>+2.0〜+4.0</td><td>一方的発信</td><td>「すごい投稿！🔥」— 他の次元が高い場合のみ通過 ⚠️</td></tr>
-            <tr><td>+1.0 ペナルティ</td><td>空虚な承認のみ</td><td>絵文字のみ・「ありがとう」のみ ✗</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <h3>🎯 計算例：人間の投稿 vs. ボットスパム</h3>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>メッセージ</th><th>言語 (20%)</th><th>挨拶 (15%)</th><th>貢献 (40%) ⭐</th><th>セキュ (15%)</th><th>対話 (10%)</th><th>合計</th><th>ポイント</th></tr>
-        </thead>
+      <h3>計算例 — Calculation Example</h3>
+      <div class="tw"><table class="stable">
+        <thead><tr><th>メッセージ</th><th>言語(20%)</th><th>挨拶(15%)</th><th>貢献(40%)⭐</th><th>セキュ(15%)</th><th>対話(10%)</th><th>合計</th><th>結果</th></tr></thead>
         <tbody>
-          <tr>
-            <td>「こんにちは！詳しくプロジェクトのロードマップを分析しました…」</td>
-            <td>8.3</td><td>6.5</td><td>12.0</td><td>4.0</td><td>5.2</td>
-            <td><strong>6.39</strong></td><td style="color:var(--accent-green)"><strong>+16 pt ✅</strong></td>
-          </tr>
-          <tr>
-            <td>「いいプロジェクト！！🔥🔥」</td>
-            <td>8.0</td><td>6.0</td><td>−3.0</td><td>4.0</td><td>5.0</td>
-            <td><strong>1.23</strong></td><td style="color:var(--red)"><strong>ポイントなし ✗</strong></td>
-          </tr>
+          <tr><td>「こんにちは！詳しくロードマップを分析しました…」</td><td>8.3</td><td>6.5</td><td>12.0</td><td>4.0</td><td>5.2</td><td><strong>6.39</strong></td><td><span class="bp">+16 pt ✅</span></td></tr>
+          <tr><td>「いいプロジェクト！！🔥🔥」</td><td>8.0</td><td>6.0</td><td>−3.0</td><td>4.0</td><td>5.0</td><td><strong>1.23</strong></td><td><span class="bf">0 pt ✗</span></td></tr>
         </tbody>
-      </table>
-    </div>
-  </div>
+      </table></div>
+    </section>
 
-  <!-- セクション 05 -->
-  <div id="sec05" class="section">
-    <div class="section-num">Section 05</div>
-    <h2 class="section-title">技術的実装詳細</h2>
-    <div class="section-subtitle">PROOF OF GI — TECHNICAL ARCHITECTURE</div>
-
-    <h3>🧪 技術的検証</h3>
-    <p>既存の <code>scoring_system.py</code> コードと評価ルーブリックに基づく、検証済みアーキテクチャは以下のとおりです：</p>
-
-    <div class="code-block">
-      <span class="code-label">コア数式</span>
-quality_score = lang*0.20 + greeting*0.15 + substance*0.40 + security*0.15 + engagement*0.10
-
-<span class="code-keyword">IF</span> final_quality >= 6.0 <span class="code-keyword">AND</span> not_suspicious_pattern():
-    awarded_points = int((final_quality/10)*25)  <span class="code-comment"># 最大 25 pt</span></div>
-
-    <h3>✅ アーキテクチャ設計（コードレビュー検証済み）</h3>
-    <ul class="check-list">
-      <li>5 次元評価エンジン（多次元品質スコアリング）</li>
-      <li>パターンベースのアンチゲーミング検出</li>
-      <li>ローカル SQLite ＋ セッションメモリの永続化</li>
-      <li>チャンネル観察設定</li>
-    </ul>
-
-    <h3>🎯 Proof of Gi の核心設計原則</h3>
-
-    <div class="info-box gold">
-      <span class="box-label">1️⃣ 品質ゲート制報酬 ⭐ 最重要</span>
-      <p style="margin:0">空虚な貢献は自動的に拒否されます。真に思慮深いコンテンツのみがポイントの対象になります。≥6.0 品質ゲートがアンチゲーミングの中核機構です。</p>
-    </div>
-
-    <div class="info-box gold">
-      <span class="box-label">2️⃣ 複利成長モデル 📈</span>
-      <p style="margin:0">ポイントはリセットや失効がありません。貢献 #1（+5 pt）＋ 貢献 #10（+8 pt）＋ 貢献 #24（+12 pt）→ 累計 37 pt！ 一つひとつの積み重ねが長期的な報酬と評価につながります。</p>
-    </div>
-
-    <div class="info-box gold">
-      <span class="box-label">3️⃣ セキュリティ・ファーストのコミュニティ 🔒</span>
-      <p style="margin:0">セキュリティリスクを公開で警告したメンバーにはボーナスポイント（+5 / +10）が付与されます。空虚な称賛よりも誠実な対話へのインセンティブを整合させます。</p>
-    </div>
-
-    <div class="info-box gold">
-      <span class="box-label">4️⃣ 透明性と説明責任 📖</span>
-      <p style="margin:0">すべての評価は明示的なルーブリック、検証可能な基準、スパムを報酬前に排除する品質ゲートを使用します。スコアリング数式は全メンバーに公開されています。</p>
-    </div>
-
-    <div class="info-box gold">
-      <span class="box-label">5️⃣ 文化的共鳴 🏯</span>
-      <p style="margin:0">日本の価値観が分散型ガバナンスへシームレスに変換されます。武士道の名誉規範 → Proof of Gi の定量化。寺子屋精神（学び合うコミュニティ）が受け継がれます。</p>
-    </div>
-  </div>
-
-  <!-- セクション 06 -->
-  <div id="sec06" class="section">
-    <div class="section-num">Section 06</div>
-    <h2 class="section-title">セキュリティ＆安全プロトコル</h2>
-    <div class="section-subtitle">武士の戒め — SECURITY GUARDIANSHIP</div>
-
-    <h3>🛡️ セキュリティアーキテクチャ概要</h3>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>レイヤー</th><th>保護メカニズム</th><th>軽減される脅威</th></tr>
-        </thead>
+    <!-- 09 -->
+    <section class="sec" id="ps09">
+      <div class="sh">
+        <div class="sn">09</div>
+        <div><span class="slbl">Chapter Nine</span><div class="sjp">セキュリティ＆安全プロトコル</div><div class="sen">武士の戒め — Security Guardianship</div></div>
+      </div>
+      <div class="sgrid">
+        <div class="si"><div class="siic">🔕</div><span class="silbl">DM 完全禁止</span><div class="sid">プライベートメッセージへのアクセスをゼロに。フィッシング・認証情報窃取を防止。</div></div>
+        <div class="si"><div class="siic">🔍</div><span class="silbl">パターン検出</span><div class="sid">リアルタイムのアンチゲーミング解析。報酬ファーミングボット・スパムを排除。</div></div>
+        <div class="si"><div class="siic">💾</div><span class="silbl">ローカル SQLite のみ</span><div class="sid">外部S3・クラウドサービスは一切使用しない。データ漏洩・不正アクセスを防止。</div></div>
+        <div class="si"><div class="siic">🔑</div><span class="silbl">認証情報レッドフラグ</span><div class="sid">秘密鍵・シードフレーズの即時警告。ウォレット盗難・アイデンティティ侵害を防止。</div></div>
+      </div>
+      <h3>多層セキュリティモデル — Layered Security</h3>
+      <div class="tw"><table class="ctable">
+        <thead><tr><th>レイヤー</th><th>保護メカニズム</th><th>軽減される脅威</th></tr></thead>
         <tbody>
-          <tr><td>DM アクセスなし</td><td>プライベートメッセージへのアクセスをゼロに</td><td>フィッシング・認証情報窃取・ソーシャルエンジニアリング</td></tr>
-          <tr><td>パターン検出</td><td>リアルタイムのアンチゲーミング解析</td><td>報酬ファーミングボット・自動生成スパム</td></tr>
-          <tr><td>ローカル SQLite のみ</td><td>外部 S3 ／クラウドサービスなし</td><td>データ漏洩・不正アクセス</td></tr>
-          <tr><td>認証情報レッドフラグ</td><td>秘密鍵・シードフレーズの即時警告</td><td>ウォレット盗難・アイデンティティ侵害</td></tr>
+          <tr><td><strong>Layer 1</strong><br>アクセス制御</td><td>DM へのアクセスをゼロに</td><td>フィッシング・認証情報窃取・ソーシャルエンジニアリング</td></tr>
+          <tr><td><strong>Layer 2</strong><br>パターン検出</td><td>リアルタイムのアンチゲーミング解析</td><td>報酬ファーミングボット・自動生成スパム</td></tr>
+          <tr><td><strong>Layer 3</strong><br>認証情報露出</td><td>秘密鍵・シードフレーズ・APIトークンにゼロトレランス</td><td>ウォレット盗難・アイデンティティ侵害</td></tr>
+          <tr><td><strong>Layer 4</strong><br>データ永続化</td><td>ローカル SQLite のみ（外部同期なし）</td><td>データ漏洩・不正アクセス</td></tr>
         </tbody>
-      </table>
+      </table></div>
+    </section>
+
+    <!-- 10 -->
+    <section class="sec" id="ps10">
+      <div class="sh">
+        <div class="sn">10</div>
+        <div><span class="slbl">Chapter Ten</span><div class="sjp">実装ロードマップ＆将来の展望</div><div class="sen">Implementation Roadmap &amp; Future Outlook</div></div>
+      </div>
+      <div class="rm">
+        <div class="rmi">
+          <div class="rmdc"><div class="rmd done">✓</div></div>
+          <div class="rmc">
+            <div class="rmph">Phase 0 — 完了 / Completed</div>
+            <div class="rmt">種まき期 · コアインフラ v0.1</div>
+            <ul class="rmul">
+              <li>5次元評価エンジン実装</li><li>パターンベースのアンチゲーミング検出</li>
+              <li>ローカル SQLite ＋ セッションメモリ永続化</li>
+              <li>DiscordチャンネルのOGメンバー形成・場の文化の醸成</li>
+              <li>CC0・オープンソース精神でのコンテンツ展開</li>
+            </ul>
+          </div>
+        </div>
+        <div class="rmi">
+          <div class="rmdc"><div class="rmd act">→</div></div>
+          <div class="rmc">
+            <div class="rmph">Phase 1 — 準備完了 / Ready</div>
+            <div class="rmt">アクティブ監視＆評価 · コミュニティ拡大</div>
+            <ul class="rmul">
+              <li>JST 深夜0時の自動日次評価（全コミュニティチャンネル）</li>
+              <li>リアルタイムパターン検出 ＋ 品質ゲート通過後のリーダーボード更新</li>
+              <li>NFTコレクション・トークン設計</li>
+              <li>Cyber Bozu等のキャラクターXでの世界観発信</li>
+              <li>多言語コンテンツによる武士道2.0の世界発信</li>
+            </ul>
+          </div>
+        </div>
+        <div class="rmi">
+          <div class="rmdc"><div class="rmd">2</div></div>
+          <div class="rmc">
+            <div class="rmph">Phase 2 — 予定 / Planned</div>
+            <div class="rmt">高度機能 · オンチェーン実装 v0.2</div>
+            <ul class="rmul">
+              <li>Proof of Gi のオンチェーン実装</li>
+              <li>セッション横断エンゲージメント分析</li>
+              <li>貢献パターンに基づく適応学習</li>
+              <li>動的閾値調整（コミュニティ固有の最適化）</li>
+              <li>世界5億人の武道コミュニティとの接続</li>
+            </ul>
+          </div>
+        </div>
+        <div class="rmi">
+          <div class="rmdc"><div class="rmd">∞</div></div>
+          <div class="rmc">
+            <div class="rmph">Phase ∞ — ビジョン / Vision</div>
+            <div class="rmt">日本発・世界標準のDAOモデルの確立</div>
+            <ul class="rmul">
+              <li>日本を代表するDAOを超え、世界に新しい生き方のモデルを発信</li>
+              <li>武士道哲学に根ざした持続可能なコミュニティ・ガバナンスの世界的普及</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <h3>技術仕様 Appendix（参照）</h3>
+      <div class="bridge" onclick="go('spec')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')go('spec')" style="margin:24px 0 0;">
+        <div class="brl">
+          <span class="breye">Technical Specification — Appendix</span>
+          <div class="brjp">技術仕様書（完全版）</div>
+          <div class="bren">ALGORITHM · PATTERNS · CONSTANTS</div>
+          <div class="brdesc">A.1 アルゴリズム疑似コード ／ A.2 パターン検出ルール ／ A.3 加重設定スキーマ ／ A.4 品質閾値定数 ／ A.5 アンチゲーミングロジック ／ A.6 疑似コード完全版</div>
+        </div>
+        <div class="brr">
+          <div class="bric">📄</div>
+          <div class="brbtn">▶ 仕様書を読む</div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /wrap -->
+
+  <footer class="footer">
+    <span class="ftsym">⚖</span>
+    <div class="ftn">Proof of Gi</div>
+    <div class="ftq">名誉が定量化され、透明な貢献評価を通じてコミュニティが共に成長する場所。</div>
+    <div class="ften">寺子屋（テラコヤ）精神 — 相互学習の伝統、永遠に</div>
+    <div class="ftrule"></div>
+    <div class="ftmeta">BushiDAO Whitepaper v1.0 · 2026.06 · Proof of Gi Governance System v0.1</div>
+  </footer>
+</div><!-- /pg-pog -->
+
+<!-- ═══════════════════════════════
+     TECH SPEC PAGE
+═══════════════════════════════ -->
+<div class="page" id="pg-spec">
+
+  <div class="spec-hero">
+    <div class="spec-hin">
+      <div class="spec-eye">BushiDAO — Technical Specification / Appendix</div>
+      <div class="spec-title">技術仕様書</div>
+      <div class="spec-sub">Algorithm · Pattern Detection · Constants · Anti-Gaming Logic</div>
+      <div class="spec-rule"></div>
+      <div class="spec-desc">Proof of Gi ガバナンスエンジンの実装詳細。アルゴリズム疑似コード・パターン検出ルール・加重定数・アンチゲーミングロジックを完全収録。</div>
     </div>
+  </div>
 
-    <h3>🔐 多層セキュリティモデル</h3>
+  <nav class="spec-snav">
+    <a href="#sa1">A.1 アルゴリズム</a>
+    <a href="#sa2">A.2 パターン検出</a>
+    <a href="#sa3">A.3 加重スキーマ</a>
+    <a href="#sa4">A.4 品質定数</a>
+    <a href="#sa5">A.5 アンチゲーミング</a>
+    <a href="#sa6">A.6 完全疑似コード</a>
+  </nav>
 
-    <div class="info-box warning">
-      <span class="box-label">レイヤー 1 — アクセス制御</span>
-      <p>重要ルール：<strong>DM は絶対に使用しません！</strong><br>
-      ✅ 許可：チャンネル投稿・スレッド返信・コミュニティカテゴリ内の @メンション<br>
-      ❌ ブロック：DM 経由での問い合わせ・応答の試みは自動的に拒否</p>
-    </div>
+  <div class="wrap">
 
-    <div class="info-box warning">
-      <span class="box-label">レイヤー 2 — パターンベースのアンチゲーミング</span>
-      <p>疑わしいパターンを識別します：過剰な装飾スパム（<code>+++++</code>・<code>*****</code>）、繰り返しの定型文、60 秒以内に複数チャンネルへの同一メッセージ、対話なしの空虚な称賛。</p>
-    </div>
+    <!-- A.1 アルゴリズム疑似コード -->
+    <section class="sec" id="sa1">
+      <div class="sh">
+        <div class="sn">A.1</div>
+        <div><span class="slbl">Appendix One</span><div class="sjp">アルゴリズム疑似コード</div><div class="sen">Algorithm Pseudocode — Quality Scoring Pipeline</div></div>
+      </div>
+      <p class="lead">Proof of Gi スコアリングパイプラインの核心。メッセージを受け取り、5次元を評価し、ポイントを付与するまでの全処理フローです。</p>
 
-    <div class="info-box warning">
-      <span class="box-label">レイヤー 3 — 認証情報露出検出（最高優先度）</span>
-      <p>秘密鍵・シードフレーズ・API トークンにゼロトレランスを適用。64 文字の 16 進数文字列・12 / 24 語のニーモニックフレーズ・露出した API キーをパターンマッチングで検出。<strong>検出時はメッセージを即時拒否します。</strong></p>
-    </div>
+      <h3>メインスコアリング関数</h3>
+      <div class="code-block"><span class="kw">function</span> <span class="fn">evaluate_message</span>(message, member_id, channel_id):
+  <span class="cm"># ── ステップ 1: 前処理 ──────────────────────────────</span>
+  tokens       = tokenize(message.text)
+  lang         = detect_language(tokens)
+  patterns     = extract_patterns(tokens)
+  context      = load_context(member_id, channel_id)
 
-    <div class="info-box warning">
-      <span class="box-label">レイヤー 4 — データ永続化セキュリティ</span>
-      <p>すべてのデータはローカルにのみ保存されます。✅ ローカル SQLite（ファイルベース・外部同期なし）。✅ セッションメモリバックアップ。❌ AWS S3 不使用。❌ Firebase / MongoDB 不使用。</p>
-    </div>
+  <span class="cm"># ── ステップ 2: 疑わしいパターンの事前チェック ──────</span>
+  <span class="kw">if</span> is_suspicious(patterns, context):
+    log_suspicious_activity(member_id, patterns)
+    <span class="kw">return</span> PointResult(points=<span class="nm">0</span>, reason=<span class="st">"suspicious_pattern"</span>)
 
-    <h3>🔒 セキュリティプロトコル一覧</h3>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>プロトコル</th><th>実装方法</th><th>コミュニティへの影響</th></tr>
-        </thead>
+  <span class="cm"># ── ステップ 3: 5次元スコアリング ───────────────────</span>
+  d1 = score_language_appropriateness(lang, tokens)   <span class="cm"># 20%</span>
+  d2 = score_greeting_politeness(tokens, patterns)    <span class="cm"># 15%</span>
+  d3 = score_substance_value(tokens, context)         <span class="cm"># 40% ← 最重要</span>
+  d4 = score_security_awareness(tokens)               <span class="cm"># 15%</span>
+  d5 = score_conversation_depth(tokens, context)      <span class="cm"># 10%</span>
+
+  <span class="cm"># ── ステップ 4: 加重合算 ────────────────────────────</span>
+  quality = (d1 * <span class="nm">0.20</span>) + (d2 * <span class="nm">0.15</span>) + (d3 * <span class="nm">0.40</span>)
+           + (d4 * <span class="nm">0.15</span>) + (d5 * <span class="nm">0.10</span>)
+
+  <span class="cm"># ── ステップ 5: 品質閾値チェック ────────────────────</span>
+  <span class="kw">if</span> quality < QUALITY_THRESHOLD:  <span class="cm"># 6.0</span>
+    <span class="kw">return</span> PointResult(points=<span class="nm">0</span>, reason=<span class="st">"below_threshold"</span>, score=quality)
+
+  <span class="cm"># ── ステップ 6: ポイント計算（最大 25pt）───────────</span>
+  base_points = int((quality / <span class="nm">10.0</span>) * MAX_POINTS)  <span class="cm"># MAX_POINTS = 25</span>
+
+  <span class="cm"># ── ステップ 7: セキュリティボーナス ────────────────</span>
+  bonus = calculate_security_bonus(tokens)
+  total = base_points + bonus
+
+  <span class="cm"># ── ステップ 8: 永続化 ──────────────────────────────</span>
+  save_to_db(member_id, total, quality, channel_id)
+  update_leaderboard(member_id, total)
+
+  <span class="kw">return</span> PointResult(points=total, quality=quality, breakdown={
+    <span class="st">"d1"</span>: d1, <span class="st">"d2"</span>: d2, <span class="st">"d3"</span>: d3,
+    <span class="st">"d4"</span>: d4, <span class="st">"d5"</span>: d5, <span class="st">"bonus"</span>: bonus
+  })</div>
+
+      <h3>次元 3「実質的貢献」詳細スコアリング</h3>
+      <div class="code-block"><span class="kw">function</span> <span class="fn">score_substance_value</span>(tokens, context):
+  score = <span class="nm">0.0</span>
+
+  <span class="cm"># ─ 長さ・構造チェック ─────────────────────────────</span>
+  word_count = len(tokens)
+  <span class="kw">if</span>   word_count >= <span class="nm">100</span>: score += <span class="nm">3.0</span>   <span class="cm"># 長文・詳述</span>
+  <span class="kw">elif</span> word_count >= <span class="nm">40</span>:  score += <span class="nm">1.5</span>   <span class="cm"># 中程度</span>
+  <span class="kw">elif</span> word_count >= <span class="nm">15</span>:  score += <span class="nm">0.5</span>   <span class="cm"># 短文</span>
+  <span class="kw">else</span>:                    score -= <span class="nm">1.0</span>   <span class="cm"># 極短（スパムリスク）</span>
+
+  <span class="cm"># ─ 専門用語・技術キーワード ──────────────────────</span>
+  tech_terms = count_domain_keywords(tokens, TECH_KEYWORD_LIST)
+  score += min(tech_terms * <span class="nm">0.4</span>, <span class="nm">2.0</span>)  <span class="cm"># 上限 +2.0</span>
+
+  <span class="cm"># ─ 質問・提案パターン ────────────────────────────</span>
+  <span class="kw">if</span> has_genuine_question(tokens): score += <span class="nm">1.0</span>
+  <span class="kw">if</span> has_proposal(tokens):         score += <span class="nm">1.5</span>
+  <span class="kw">if</span> has_analysis(tokens):         score += <span class="nm">2.0</span>
+
+  <span class="cm"># ─ ネガティブ要素 ────────────────────────────────</span>
+  <span class="kw">if</span> is_pure_emoji_reaction(tokens): score = <span class="nm">-3.0</span>  <span class="cm"># 強制上書き</span>
+  <span class="kw">if</span> is_copy_paste_repeat(tokens, context): score -= <span class="nm">2.0</span>
+
+  <span class="kw">return</span> clamp(score, <span class="nm">-3.0</span>, <span class="nm">10.0</span>)</div>
+    </section>
+
+    <!-- A.2 パターン検出ルール -->
+    <section class="sec" id="sa2">
+      <div class="sh">
+        <div class="sn">A.2</div>
+        <div><span class="slbl">Appendix Two</span><div class="sjp">パターン検出ルール</div><div class="sen">Pattern Detection Rules — Spam &amp; Gaming Prevention</div></div>
+      </div>
+      <p class="lead">スパム・報酬ファーミング・ゲーミング行為を検出する、ルールベースの判定システム。リアルタイムで動作し、ポイント付与前に実行されます。</p>
+
+      <h3>疑わしいパターン判定ロジック</h3>
+      <div class="code-block"><span class="kw">function</span> <span class="fn">is_suspicious</span>(patterns, context):
+  <span class="cm"># ルール 1: 高頻度投稿（短時間に大量メッセージ）</span>
+  <span class="kw">if</span> context.messages_last_hour > SPAM_RATE_LIMIT:  <span class="cm"># = 15</span>
+    <span class="kw">return</span> <span class="kw">True</span>
+
+  <span class="cm"># ルール 2: 同一・類似メッセージの繰り返し</span>
+  <span class="kw">if</span> similarity(patterns.text, context.last_message) > SIMILARITY_THRESHOLD:  <span class="cm"># = 0.85</span>
+    <span class="kw">return</span> <span class="kw">True</span>
+
+  <span class="cm"># ルール 3: 純粋な絵文字反応（テキストなし）</span>
+  <span class="kw">if</span> patterns.is_emoji_only <span class="kw">and</span> len(patterns.tokens) < <span class="nm">3</span>:
+    <span class="kw">return</span> <span class="kw">True</span>
+
+  <span class="cm"># ルール 4: 自動応答パターン（時刻・固定フレーズ）</span>
+  <span class="kw">if</span> matches_bot_pattern(patterns.text):
+    <span class="kw">return</span> <span class="kw">True</span>
+
+  <span class="cm"># ルール 5: 既知のフィッシング・詐欺フレーズ（秘密鍵要求等）</span>
+  <span class="kw">if</span> contains_phishing_indicators(patterns.text):
+    flag_security_threat(context.member_id, <span class="st">"PHISHING"</span>)
+    <span class="kw">return</span> <span class="kw">True</span>
+
+  <span class="cm"># ルール 6: DM誘導フレーズ</span>
+  <span class="kw">if</span> contains_dm_solicitation(patterns.text):
+    flag_security_threat(context.member_id, <span class="st">"DM_SOLICITATION"</span>)
+    <span class="kw">return</span> <span class="kw">True</span>
+
+  <span class="kw">return</span> <span class="kw">False</span></div>
+
+      <h3>パターン検出ルール一覧</h3>
+      <div class="tw"><table class="spec-table">
+        <thead><tr><th>ルールID</th><th>検出パターン</th><th>閾値 / 条件</th><th>リスク</th><th>処置</th></tr></thead>
         <tbody>
-          <tr><td>DM 完全禁止</td><td>プライベートメッセージへのアクセスをゼロに</td><td>フィッシング・認証情報窃取を防止 ⛔</td></tr>
-          <tr><td>認証情報検出</td><td>パターンレッドフラグ ＋ 自動拒否</td><td>ウォレットを守り、警告者にボーナス付与 🤝</td></tr>
-          <tr><td>匿名ロギング</td><td>セキュリティインシデントを内部のみに記録</td><td>アカウントを露出せず記録を保持 🔒</td></tr>
-          <tr><td>アンチゲーミングフィルター</td><td>パターン ＋ 品質閾値チェック（≥6.0）</td><td>ボットを防ぎ、人間の参加に報酬 ✨</td></tr>
+          <tr><td><code>R-001</code></td><td>高頻度投稿</td><td>1時間に15件以上</td><td><span class="flag-high">HIGH</span></td><td>自動ブロック</td></tr>
+          <tr><td><code>R-002</code></td><td>類似文章繰り返し</td><td>類似度 85%以上</td><td><span class="flag-high">HIGH</span></td><td>自動ブロック</td></tr>
+          <tr><td><code>R-003</code></td><td>絵文字のみ</td><td>テキストトークン 3未満</td><td><span class="flag-med">MED</span></td><td>ポイント0、警告なし</td></tr>
+          <tr><td><code>R-004</code></td><td>ボットパターン</td><td>固定フレーズ辞書マッチ</td><td><span class="flag-high">HIGH</span></td><td>自動ブロック + ログ</td></tr>
+          <tr><td><code>R-005</code></td><td>フィッシング語句</td><td>秘密鍵・シードフレーズ等</td><td><span class="flag-high">HIGH</span></td><td>即時フラグ + 管理者通知</td></tr>
+          <tr><td><code>R-006</code></td><td>DM誘導</td><td>「DMして」「個別連絡」等</td><td><span class="flag-high">HIGH</span></td><td>即時フラグ + 管理者通知</td></tr>
+          <tr><td><code>R-007</code></td><td>コピペ重複</td><td>過去7日内の同一投稿</td><td><span class="flag-med">MED</span></td><td>スコア −2.0</td></tr>
+          <tr><td><code>R-008</code></td><td>過度な自己宣伝</td><td>外部URLが50%以上</td><td><span class="flag-low">LOW</span></td><td>スコア −1.0</td></tr>
+          <tr><td><code>R-009</code></td><td>深夜大量投稿</td><td>JST 0〜5時に10件以上</td><td><span class="flag-med">MED</span></td><td>スコア補正 ×0.7</td></tr>
         </tbody>
-      </table>
-    </div>
+      </table></div>
+    </section>
 
-    <h3>📊 実装ロードマップ</h3>
-    <div class="roadmap-item">
-      <span class="roadmap-badge badge-done">✅ 完了</span>
-      <div>
-        <strong>フェーズ 1：コアインフラ — v0.1</strong><br>
-        <span class="muted">5 次元評価エンジン · パターンベースのアンチゲーミング検出 · ローカル SQLite ＋ セッションメモリ · チャンネル監視設定</span>
+    <!-- A.3 加重設定スキーマ -->
+    <section class="sec" id="sa3">
+      <div class="sh">
+        <div class="sn">A.3</div>
+        <div><span class="slbl">Appendix Three</span><div class="sjp">加重設定スキーマ</div><div class="sen">Weight Configuration Schema — Dimension Tuning</div></div>
       </div>
-    </div>
-    <div class="roadmap-item">
-      <span class="roadmap-badge badge-ready">🟡 準備完了</span>
-      <div>
-        <strong>フェーズ 2：アクティブ監視＆評価</strong><br>
-        <span class="muted">JST 深夜 0 時の 自発 日次評価 · リアルタイムパターン検出 · 品質ゲート通過後のリーダーボード更新 · 認証情報侵害のセキュリティアラート</span>
+      <p class="lead">各次元の加重値はコミュニティ固有の設定として外部化されており、管理者が調整可能です。デフォルト値はBushiDAO標準設定です。</p>
+
+      <h3>設定スキーマ（JSON）</h3>
+      <div class="code-block">{
+  <span class="st">"community_id"</span>: <span class="st">"bushidao-main"</span>,
+  <span class="st">"version"</span>: <span class="st">"0.1.0"</span>,
+  <span class="st">"weights"</span>: {
+    <span class="st">"language_appropriateness"</span>: <span class="nm">0.20</span>,  <span class="cm">// 言語適切性（変更不可: 0.10〜0.30）</span>
+    <span class="st">"greeting_politeness"</span>:       <span class="nm">0.15</span>,  <span class="cm">// 挨拶の質（変更可: 0.05〜0.25）</span>
+    <span class="st">"substance_value"</span>:           <span class="nm">0.40</span>,  <span class="cm">// 実質的貢献（変更不可: 最低 0.30）</span>
+    <span class="st">"security_awareness"</span>:        <span class="nm">0.15</span>,  <span class="cm">// セキュリティ意識（変更可: 0.05〜0.25）</span>
+    <span class="st">"conversation_depth"</span>:        <span class="nm">0.10</span>   <span class="cm">// 対話の深さ（変更可: 0.05〜0.20）</span>
+  },
+  <span class="st">"constraints"</span>: {
+    <span class="st">"sum_must_equal"</span>: <span class="nm">1.0</span>,
+    <span class="st">"substance_minimum"</span>: <span class="nm">0.30</span>,       <span class="cm">// 実質的貢献は最低30%確保</span>
+    <span class="st">"allow_dynamic_adjustment"</span>: <span class="kw">false</span>  <span class="cm">// Phase 2以降で有効化</span>
+  },
+  <span class="st">"scoring_caps"</span>: {
+    <span class="st">"max_points_per_message"</span>: <span class="nm">25</span>,
+    <span class="st">"max_bonus_per_message"</span>: <span class="nm">10</span>,
+    <span class="st">"max_points_per_day"</span>: <span class="nm">100</span>,       <span class="cm">// 日次上限（ゲーミング防止）</span>
+    <span class="st">"max_points_per_week"</span>: <span class="nm">400</span>
+  },
+  <span class="st">"language"</span>: {
+    <span class="st">"primary"</span>: <span class="st">"ja"</span>,
+    <span class="st">"secondary"</span>: [<span class="st">"en"</span>],
+    <span class="st">"penalty_foreign"</span>: <span class="nm">-1.0</span>,
+    <span class="st">"bonus_primary"</span>: <span class="nm">9.0</span>
+  }
+}</div>
+
+      <h3>次元別スコアリング範囲</h3>
+      <div class="tw"><table class="spec-table">
+        <thead><tr><th>次元</th><th>加重</th><th>スコア範囲</th><th>最大寄与</th><th>備考</th></tr></thead>
+        <tbody>
+          <tr><td>D1 言語適切性</td><td><code>0.20</code></td><td>−1.0 〜 +9.0</td><td>1.80 pt/10</td><td>日本語完全使用で満点</td></tr>
+          <tr><td>D2 挨拶の質</td><td><code>0.15</code></td><td>0.0 〜 +8.0</td><td>1.20 pt/10</td><td>敬称使用でボーナス</td></tr>
+          <tr><td>D3 実質的貢献</td><td><code>0.40</code></td><td>−3.0 〜 +10.0</td><td>4.00 pt/10</td><td>最重要・ゲートキーパー</td></tr>
+          <tr><td>D4 セキュリティ意識</td><td><code>0.15</code></td><td>0.0 〜 +10.0</td><td>1.50 pt/10</td><td>警告でボーナス付加</td></tr>
+          <tr><td>D5 対話の深さ</td><td><code>0.10</code></td><td>0.0 〜 +8.0</td><td>0.80 pt/10</td><td>双方向性を重視</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <!-- A.4 品質閾値定数 -->
+    <section class="sec" id="sa4">
+      <div class="sh">
+        <div class="sn">A.4</div>
+        <div><span class="slbl">Appendix Four</span><div class="sjp">品質閾値定数</div><div class="sen">Quality Threshold Constants</div></div>
       </div>
-    </div>
-    <div class="roadmap-item">
-      <span class="roadmap-badge badge-future">⏳ 予定</span>
-      <div>
-        <strong>フェーズ 3：高度機能 — v0.2 以降</strong><br>
-        <span class="muted">セッション横断エンゲージメント分析 · 貢献パターンに基づく適応学習 · 動的閾値調整（コミュニティ固有の最適化）</span>
+      <p class="lead">システム全体で参照される定数群。変更する場合は必ずコミュニティ全体への影響をシミュレートしてから適用してください。</p>
+
+      <div class="const-grid">
+        <div class="const-item"><span class="const-key">QUALITY_THRESHOLD</span><div class="const-val">6.0</div><div class="const-desc">ポイント付与の最低品質スコア（10点満点中）</div></div>
+        <div class="const-item"><span class="const-key">MAX_POINTS</span><div class="const-val">25</div><div class="const-desc">1メッセージあたりのポイント上限</div></div>
+        <div class="const-item"><span class="const-key">MAX_BONUS</span><div class="const-val">10</div><div class="const-desc">セキュリティ警告ボーナスの上限</div></div>
+        <div class="const-item"><span class="const-key">SPAM_RATE_LIMIT</span><div class="const-val">15</div><div class="const-desc">1時間あたりの最大許容メッセージ数</div></div>
+        <div class="const-item"><span class="const-key">SIMILARITY_THRESHOLD</span><div class="const-val">0.85</div><div class="const-desc">コピー判定の類似度閾値（0〜1）</div></div>
+        <div class="const-item"><span class="const-key">DAILY_CAP</span><div class="const-val">100</div><div class="const-desc">1日あたりの累積ポイント上限</div></div>
+        <div class="const-item"><span class="const-key">WEEKLY_CAP</span><div class="const-val">400</div><div class="const-desc">1週あたりの累積ポイント上限</div></div>
+        <div class="const-item"><span class="const-key">EVAL_TIME_JST</span><div class="const-val">00:00</div><div class="const-desc">自動日次評価の実行時刻（JST深夜0時）</div></div>
+        <div class="const-item"><span class="const-key">MIN_SUBSTANCE_WEIGHT</span><div class="const-val">0.30</div><div class="const-desc">実質的貢献次元の最小加重（変更不可）</div></div>
       </div>
-    </div>
-  </div>
 
-  <!-- まとめ -->
-  <div class="section">
-    <div class="section-num">まとめ</div>
-    <h2 class="section-title">持続可能な DAO ガバナンスへ向けて</h2>
+      <h3>定数定義コード</h3>
+      <div class="code-block"><span class="cm"># ── Proof of Gi: 品質閾値定数（v0.1.0）──────────────────</span>
 
-    <div class="info-box dark">
-      <p style="color:rgba(255,255,255,0.9); margin-bottom:12px;">BushiDAO の Proof of Gi システムが示すもの：</p>
-      <ul class="check-list" style="color:#fff">
-        <li>トークン保有量による支配から貢献の質への、パラダイムシフト</li>
-        <li>パターン検出とローカルストレージのみによる、技術的なセキュリティ</li>
-        <li>日本の価値観との文化的整合（武士道哲学 → ブロックチェーンガバナンス）</li>
-        <li>真の人間参加に報酬を与える、アンチゲーミング保護 ✨</li>
-      </ul>
-    </div>
-    <div class="card-grid" style="margin-top:24px">
-      <div class="card"><div class="card-icon">⚖️</div><div class="card-title">実力主義</div><div class="card-desc">トークン集中ではなく貢献の質によって価値が決まる</div></div>
-      <div class="card"><div class="card-icon">📖</div><div class="card-title">説明責任</div><div class="card-desc">透明なスコアリング ＋ 複利報酬の追跡（リセットなし）</div></div>
-      <div class="card"><div class="card-icon">🔒</div><div class="card-title">安全</div><div class="card-desc">外部クラウドゼロ。全データをローカルに。認証情報検出。</div></div>
-      <div class="card"><div class="card-icon">🤝</div><div class="card-title">人間中心</div><div class="card-desc">自動スパムよりも真の対話に報酬が与えられる</div></div>
-    </div>
-  </div>
+QUALITY_THRESHOLD      = <span class="nm">6.0</span>   <span class="cm"># ポイント付与最低スコア</span>
+MAX_POINTS             = <span class="nm">25</span>    <span class="cm"># 1メッセージ最大ポイント</span>
+MAX_BONUS              = <span class="nm">10</span>    <span class="cm"># セキュリティボーナス上限</span>
+DAILY_CAP              = <span class="nm">100</span>   <span class="cm"># 日次累積ポイント上限</span>
+WEEKLY_CAP             = <span class="nm">400</span>   <span class="cm"># 週次累積ポイント上限</span>
+SPAM_RATE_LIMIT        = <span class="nm">15</span>    <span class="cm"># 1h あたり最大投稿数</span>
+SIMILARITY_THRESHOLD   = <span class="nm">0.85</span>  <span class="cm"># コピー判定閾値</span>
+EVAL_HOUR_JST          = <span class="nm">0</span>     <span class="cm"># 自動評価時刻（JST）</span>
+MIN_SUBSTANCE_WEIGHT   = <span class="nm">0.30</span>  <span class="cm"># 実質次元の最小加重</span>
+CONTEXT_WINDOW_DAYS    = <span class="nm">7</span>     <span class="cm"># 過去参照日数</span>
+SECURITY_BONUS_WARN    = <span class="nm">5</span>     <span class="cm"># セキュリティ警告ボーナス</span>
+SECURITY_BONUS_REPORT  = <span class="nm">10</span>    <span class="cm"># 詳細報告ボーナス</span></div>
+    </section>
 
-  <!-- Appendix 参照 -->
-  <div id="appendix-ref" class="appendix-ref">
-    <div class="appendix-ref-inner">
-      <h3>Section 07 — 技術仕様 Appendix</h3>
-      <p>実装仕様の詳細コード・数式・パターン検出ロジックは別添の技術仕様書をご覧ください</p>
-      <div class="appendix-items">
-        <span class="appendix-item">A.1 アルゴリズム疑似コード</span>
-        <span class="appendix-item">A.2 パターン検出ルール</span>
-        <span class="appendix-item">A.3 加重設定スキーマ</span>
-        <span class="appendix-item">A.4 品質閾値定数</span>
-        <span class="appendix-item">A.5 アンチゲーミングロジック</span>
+    <!-- A.5 アンチゲーミングロジック -->
+    <section class="sec" id="sa5">
+      <div class="sh">
+        <div class="sn">A.5</div>
+        <div><span class="slbl">Appendix Five</span><div class="sjp">アンチゲーミングロジック</div><div class="sen">Anti-Gaming Logic — Reward Integrity System</div></div>
       </div>
-    </div>
-  </div>
+      <p class="lead">報酬システムの不正利用（ゲーミング）を多層的に防ぐロジック群。短期的な裏をかく行為だけでなく、長期的な形骸化も防止します。</p>
 
-</div><!-- /container -->
+      <h3>長期パターン分析</h3>
+      <div class="code-block"><span class="kw">function</span> <span class="fn">detect_long_term_gaming</span>(member_id, window_days=<span class="nm">30</span>):
+  history = load_message_history(member_id, window_days)
 
-<div class="footer">
-  <div class="footer-logo">🏯 BushiDAO</div>
-  <p class="footer-p">バージョン 0.1.0 ｜ 2026年 6月 リリース ｜ BushiDAO コミュニティ 制作・管理</p>
-  <p class="footer-p">寺子屋（テラコヤ）精神 — 相互学習の伝統、永遠に</p>
-  <p style="margin-top:12px; opacity:0.4; font-size:10px;" class="footer-p">名誉が定量化され、透明な貢献評価を通じてコミュニティが共に成長する場所。</p>
-</div>
+  <span class="cm"># ─ 指標 1: 長さの急激な変化（品質装填）─────────────</span>
+  lengths = [len(m.tokens) <span class="kw">for</span> m <span class="kw">in</span> history]
+  <span class="kw">if</span> coefficient_of_variation(lengths) > <span class="nm">2.0</span>:
+    flag_member(member_id, <span class="st">"LENGTH_GAMING"</span>, severity=<span class="st">"medium"</span>)
 
+  <span class="cm"># ─ 指標 2: 評価直後のスタイル急変 ───────────────────</span>
+  score_changes = diff(get_daily_scores(member_id))
+  <span class="kw">if</span> max(score_changes) > SCORE_JUMP_THRESHOLD:  <span class="cm"># = 3.0</span>
+    flag_member(member_id, <span class="st">"SCORE_JUMP"</span>, severity=<span class="st">"low"</span>)
+
+  <span class="cm"># ─ 指標 3: キーワード詰め込み（スタッフィング）────────</span>
+  keyword_densities = [keyword_density(m) <span class="kw">for</span> m <span class="kw">in</span> history]
+  <span class="kw">if</span> mean(keyword_densities) > KEYWORD_DENSITY_MAX:  <span class="cm"># = 0.15</span>
+    flag_member(member_id, <span class="st">"KEYWORD_STUFFING"</span>, severity=<span class="st">"medium"</span>)
+
+  <span class="cm"># ─ 指標 4: 自己返信ループ ────────────────────────────</span>
+  self_reply_rate = count_self_replies(history) / len(history)
+  <span class="kw">if</span> self_reply_rate > <span class="nm">0.30</span>:
+    flag_member(member_id, <span class="st">"SELF_REPLY_LOOP"</span>, severity=<span class="st">"high"</span>)</div>
+
+      <h3>アンチゲーミング対策一覧</h3>
+      <div class="tw"><table class="spec-table">
+        <thead><tr><th>対策</th><th>検出方法</th><th>重要度</th><th>自動処置</th></tr></thead>
+        <tbody>
+          <tr><td>スパムレート制限</td><td>1時間あたり投稿数カウント</td><td><span class="flag-high">HIGH</span></td><td>即時ブロック</td></tr>
+          <tr><td>コピペ検出</td><td>コサイン類似度 &gt;85%</td><td><span class="flag-high">HIGH</span></td><td>即時ブロック</td></tr>
+          <tr><td>絵文字ファーミング防止</td><td>テキストトークン数チェック</td><td><span class="flag-med">MED</span></td><td>スコア強制0</td></tr>
+          <tr><td>長さ急変検出</td><td>30日間の変動係数</td><td><span class="flag-med">MED</span></td><td>フラグ + 監視強化</td></tr>
+          <tr><td>キーワード詰め込み</td><td>キーワード密度 15%超</td><td><span class="flag-med">MED</span></td><td>スコア補正 ×0.6</td></tr>
+          <tr><td>自己返信ループ</td><td>自己返信率 30%超</td><td><span class="flag-high">HIGH</span></td><td>フラグ + 管理者通知</td></tr>
+          <tr><td>日次上限</td><td>累積ポイント100pt/日</td><td><span class="flag-low">LOW</span></td><td>上限到達後は付与停止</td></tr>
+          <tr><td>深夜ボット監視</td><td>JST 0〜5時の活動パターン</td><td><span class="flag-med">MED</span></td><td>スコア補正 ×0.7</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <!-- A.6 完全疑似コード -->
+    <section class="sec" id="sa6">
+      <div class="sh">
+        <div class="sn">A.6</div>
+        <div><span class="slbl">Appendix Six</span><div class="sjp">完全疑似コード — エントリーポイント</div><div class="sen">Full Pseudocode — System Entry Point &amp; Daily Batch</div></div>
+      </div>
+
+      <h3>Discord イベントハンドラー</h3>
+      <div class="code-block"><span class="cm"># ── Discord メッセージ受信イベント ─────────────────────</span>
+<span class="kw">on_event</span>(<span class="st">"message"</span>, channel_whitelist=MONITORED_CHANNELS):
+  <span class="kw">async function</span> <span class="fn">handle_message</span>(event):
+
+    <span class="cm"># DM・ボット・監視外チャンネルは無視</span>
+    <span class="kw">if</span> event.is_dm <span class="kw">or</span> event.author.is_bot: <span class="kw">return</span>
+    <span class="kw">if</span> event.channel_id <span class="kw">not in</span> MONITORED_CHANNELS: <span class="kw">return</span>
+
+    <span class="cm"># セキュリティキーワードは即時処理（非同期）</span>
+    <span class="kw">if</span> contains_security_keywords(event.content):
+      <span class="kw">await</span> handle_security_alert(event)
+
+    <span class="cm"># 通常評価はキューに積んで非同期処理</span>
+    <span class="kw">await</span> evaluation_queue.push({
+      <span class="st">"member_id"</span>:   event.author.id,
+      <span class="st">"message"</span>:     event.content,
+      <span class="st">"channel_id"</span>:  event.channel_id,
+      <span class="st">"timestamp"</span>:   event.timestamp,
+      <span class="st">"guild_id"</span>:    event.guild_id
+    })</div>
+
+      <h3>日次バッチ評価（JST 深夜0時）</h3>
+      <div class="code-block"><span class="cm"># ── 日次バッチ処理（cron: 0 0 * * * JST）──────────────</span>
+<span class="kw">async function</span> <span class="fn">daily_batch_evaluation</span>():
+  today       = get_jst_date()
+  pending_ids = db.get_pending_members(date=today)
+
+  <span class="kw">for</span> member_id <span class="kw">in</span> pending_ids:
+    messages = db.get_messages(member_id, date=today)
+
+    daily_total = <span class="nm">0</span>
+    <span class="kw">for</span> msg <span class="kw">in</span> messages:
+      result = evaluate_message(msg, member_id, msg.channel_id)
+      daily_total += result.points
+
+    <span class="cm"># 日次上限を適用</span>
+    capped_total = min(daily_total, DAILY_CAP)
+
+    <span class="cm"># DBへ書き込み・リーダーボード更新</span>
+    db.update_member_points(member_id, capped_total)
+    leaderboard.recalculate(member_id)
+
+    <span class="cm"># 長期ゲーミング検出（30日分で分析）</span>
+    detect_long_term_gaming(member_id, window_days=<span class="nm">30</span>)
+
+  <span class="cm"># 完了ログ</span>
+  log_batch_complete(date=today, members_evaluated=len(pending_ids))</div>
+
+      <h3>セキュリティボーナス計算</h3>
+      <div class="code-block"><span class="kw">function</span> <span class="fn">calculate_security_bonus</span>(tokens):
+  bonus = <span class="nm">0</span>
+
+  <span class="cm"># DM詐欺の警告</span>
+  <span class="kw">if</span> warns_about_dm_scam(tokens):
+    bonus += SECURITY_BONUS_WARN  <span class="cm"># +5pt</span>
+
+  <span class="cm"># 秘密鍵・シードフレーズ危険性の説明</span>
+  <span class="kw">if</span> explains_private_key_danger(tokens):
+    bonus += SECURITY_BONUS_WARN  <span class="cm"># +5pt</span>
+
+  <span class="cm"># 具体的なフィッシング事例の報告（詳細）</span>
+  <span class="kw">if</span> reports_phishing_with_detail(tokens):
+    bonus += SECURITY_BONUS_REPORT  <span class="cm"># +10pt（上限まで）</span>
+
+  <span class="kw">return</span> min(bonus, MAX_BONUS)  <span class="cm"># 上限 10pt</span></div>
+
+      <div class="hl gold" style="margin-top:36px;">
+        <p style="margin:0;font-family:'Noto Serif JP',serif;font-size:15px;font-weight:700;">Phase 2 以降の拡張予定</p>
+        <p style="margin:8px 0 0;font-size:13px;color:var(--smoke);line-height:1.9;">オンチェーン実装後はすべての評価結果がブロックチェーン上に記録されます。現在のローカルSQLite実装は過渡的な仕様であり、コアロジックは変更せずにオンチェーンへ移行します。動的閾値調整・コミュニティ固有の加重最適化はPhase 2で有効化予定です。</p>
+      </div>
+    </section>
+
+  </div><!-- /wrap -->
+
+  <footer class="footer">
+    <span class="ftsym">📄</span>
+    <div class="ftn">Technical Specification</div>
+    <div class="ftq">実装の透明性こそが、信頼の証明である。</div>
+    <div class="ften">Transparency in implementation is proof of trust.</div>
+    <div class="ftrule"></div>
+    <div class="ftmeta">BushiDAO Whitepaper v1.0 · Appendix · 2026.06<br>Proof of Gi Algorithm Specification v0.1.0</div>
+  </footer>
+</div><!-- /pg-spec -->
+
+<script>
+function go(page, anchor) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("on"));
+  document.querySelectorAll(".nbtn").forEach(b => b.classList.remove("on"));
+  if (page === "home") {
+    document.getElementById("pg-home").classList.add("on");
+    document.getElementById("t-home").classList.add("on");
+    if (anchor) {
+      setTimeout(() => {
+        const el = document.getElementById(anchor);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }, 60);
+    } else {
+      window.scrollTo({ top: 0 });
+    }
+  } else if (page === "pog") {
+    document.getElementById("pg-pog").classList.add("on");
+    document.getElementById("t-pog").classList.add("on");
+    window.scrollTo({ top: 0 });
+  } else if (page === "spec") {
+    document.getElementById("pg-spec").classList.add("on");
+    document.getElementById("t-spec").classList.add("on");
+    if (anchor) {
+      setTimeout(() => {
+        const el = document.getElementById(anchor);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }, 60);
+    } else {
+      window.scrollTo({ top: 0 });
+    }
+  }
+  document.getElementById("mob").classList.remove("open");
+}
+function toggleMob() {
+  document.getElementById("mob").classList.toggle("open");
+}
+document.addEventListener("click", function(e) {
+  const mob = document.getElementById("mob");
+  const burger = document.getElementById("burger");
+  if (mob.classList.contains("open") && !mob.contains(e.target) && !burger.contains(e.target)) {
+    mob.classList.remove("open");
+  }
+});
+</script>
 </body>
 </html>
