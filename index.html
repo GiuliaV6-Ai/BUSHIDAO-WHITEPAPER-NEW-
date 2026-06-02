@@ -10,7 +10,7 @@
 :root{--ink:#0a0806;--paper:#f5f0e8;--paper2:#ede8db;--gold:#b8860b;--gold-l:#d4a017;--gold-p:#f0e4b0;--crimson:#8b1a1a;--smoke:#7a7060;--smoke-l:#b0a898;--border:#c8b89a;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{font-family:"Noto Sans JP",sans-serif;background:var(--paper);color:var(--ink);font-size:15px;line-height:1.8;overflow-x:hidden;}
+body{font-family:"Noto Sans JP",sans-serif;background:var(--paper);color:var(--ink);font-size:15px;line-height:1.8;overflow-x:hidden;-webkit-text-size-adjust:100%;}
 
 /* ── NAV ── */
 .nav{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--ink);border-bottom:1px solid rgba(184,134,11,.2);display:flex;align-items:center;height:52px;padding:0 24px;}
@@ -95,7 +95,7 @@ p{margin-bottom:17px;color:#282420;}
 .hl.red{background:rgba(139,26,26,.04);border-color:rgba(139,26,26,.24);}
 
 /* ── TABLES ── */
-.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:22px 0;}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:22px 0;max-width:100%;}
 .ctable{width:100%;border-collapse:collapse;font-size:13px;min-width:400px;}
 .ctable th{background:var(--ink);color:var(--gold);font-family:"DM Mono",monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;padding:10px 13px;text-align:left;font-weight:400;}
 .ctable td{padding:10px 13px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.6;}
@@ -176,7 +176,7 @@ p{margin-bottom:17px;color:#282420;}
 .dtag{font-size:9.5px;font-family:"DM Mono",monospace;background:var(--gold-p);color:var(--ink);padding:2px 6px;display:inline-block;margin-top:4px;}
 
 /* ── FORMULA ── */
-.fbox{background:var(--ink);padding:22px 26px;margin:22px 0;font-family:"DM Mono",monospace;font-size:12px;color:var(--gold-l);line-height:2;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:pre;}
+.fbox{background:var(--ink);padding:22px 26px;margin:22px 0;font-family:"DM Mono",monospace;font-size:12px;color:var(--gold-l);line-height:2;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:pre;max-width:100%;}
 .fc{color:rgba(184,134,11,.48);}
 .fk{color:#e8c97a;}
 .fv{color:#e8e0d0;}
@@ -223,7 +223,7 @@ p{margin-bottom:17px;color:#282420;}
 .spec-snav a{font-family:"DM Mono",monospace;font-size:9px;letter-spacing:.13em;color:rgba(255,255,255,.32);text-transform:uppercase;padding:12px 14px;white-space:nowrap;text-decoration:none;border-bottom:2px solid transparent;transition:all .2s;flex-shrink:0;}
 .spec-snav a:hover{color:rgba(255,255,255,.65);}
 .spec-badge{display:inline-flex;align-items:center;gap:6px;font-family:"DM Mono",monospace;font-size:8.5px;letter-spacing:.16em;color:var(--ink);background:rgba(184,134,11,.75);padding:3px 10px;text-transform:uppercase;margin-bottom:10px;}
-.code-block{background:#0d0b08;border:1px solid rgba(184,134,11,.18);padding:20px 22px;margin:18px 0;font-family:"DM Mono",monospace;font-size:12px;color:#c8c0b0;line-height:1.9;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:pre;}
+.code-block{background:#0d0b08;border:1px solid rgba(184,134,11,.18);padding:20px 22px;margin:18px 0;font-family:"DM Mono",monospace;font-size:12px;color:#c8c0b0;line-height:1.9;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:pre;max-width:100%;}
 .code-block .kw{color:#e8c97a;}
 .code-block .cm{color:rgba(184,134,11,.42);}
 .code-block .st{color:#a8d8b0;}
@@ -260,70 +260,134 @@ p{margin-bottom:17px;color:#282420;}
   .nav-logo{border-right:none;padding-right:0;}
 
   /* cover */
-  .cover{padding:44px 18px 60px;}
-  .c-meta{gap:18px;}
-
-  /* part divider */
-  .pdiv{padding:26px 18px;gap:14px;margin:48px 0 38px;}
-  .pdiv::after{display:none;}
-  .pn{font-size:42px;}
-  .pjp{font-size:17px;}
-
-  /* section header */
-  .sn{font-size:32px;min-width:40px;}
-  .sjp{font-size:18px;}
+  .cover{padding:44px 18px 60px;min-height:auto;}
+  .c-meta{gap:12px;justify-content:space-around;}
+  .c-meta-item{min-width:0;flex:1 1 auto;}
+  .c-tag-en{letter-spacing:.08em;font-size:10px;}
+  .c-sub{letter-spacing:.12em;font-size:10px;}
+  .c-eye{letter-spacing:.18em;}
 
   /* layout */
-  .wrap{padding-left:18px;padding-right:18px;}
+  .wrap{padding-left:16px;padding-right:16px;padding-top:48px;}
+
+  /* part divider */
+  .pdiv{padding:22px 16px;gap:12px;margin:44px 0 34px;}
+  .pdiv::after{display:none;}
+  .pn{font-size:38px;}
+  .pjp{font-size:16px;}
+  .pen{font-size:9px;letter-spacing:.1em;}
+
+  /* section header */
+  .sh{gap:12px;margin-bottom:24px;padding-bottom:16px;}
+  .sn{font-size:28px;min-width:34px;}
+  .sjp{font-size:17px;}
+  .slbl{font-size:7.5px;letter-spacing:.22em;}
+
+  /* typography */
+  h3{font-size:14px;margin:24px 0 10px;}
+  .lead{font-size:14.5px;line-height:1.85;}
+  .lead-en{font-size:12px;padding-left:10px;}
+  p{font-size:14px;margin-bottom:14px;}
+
+  /* callout */
+  .callout{padding:18px 18px 18px 20px;}
+  .ctjp{font-size:14px;line-height:1.75;}
+  .cten{font-size:10.5px;letter-spacing:.08em;}
+  .ci{display:none;}
+
+  /* highlight box */
+  .hl{padding:16px 18px;}
 
   /* bridge banner */
-  .bridge{flex-direction:column;padding:32px 20px;gap:20px;}
-  .brr{flex-direction:row;width:100%;align-items:center;}
+  .bridge{flex-direction:column;padding:28px 18px;gap:18px;margin:52px 0 0;}
+  .brr{flex-direction:row;width:100%;align-items:center;justify-content:space-between;}
   .bric{display:none;}
+  .brjp{font-size:17px;}
+  .brdesc{font-size:12.5px;max-width:100%;}
+  .bren{font-size:9px;letter-spacing:.1em;}
 
   /* PoG hero + subnav */
-  .pog-hero{padding:40px 18px 32px;}
-  .psnav{padding:0 12px;}
-  .psnav a{font-size:8px;padding:11px 10px;}
+  .pog-hero{padding:36px 16px 28px;}
+  .psnav{padding:0 8px;}
+  .psnav a{font-size:7.5px;padding:11px 8px;letter-spacing:.08em;}
 
   /* spec hero + subnav */
-  .spec-hero{padding:40px 18px 32px;}
-  .spec-snav{padding:0 12px;}
-  .spec-snav a{font-size:8px;padding:11px 10px;}
+  .spec-hero{padding:36px 16px 28px;}
+  .spec-snav{padding:0 8px;}
+  .spec-snav a{font-size:7.5px;padding:11px 8px;letter-spacing:.08em;}
 
   /* grids */
   .pgrid{grid-template-columns:1fr;}
   .sgrid{grid-template-columns:1fr 1fr;}
   .const-grid{grid-template-columns:repeat(2,1fr);}
 
+  /* virtues — 4 per row on tablet-mobile */
+  .vrow{flex-wrap:wrap;}
+  .v{flex:1 0 calc(25% - 1px);min-width:0;padding:14px 4px;}
+  .vk{font-size:20px;}
+  .vr{font-size:7px;letter-spacing:.1em;}
+  .ve{font-size:8px;}
+
   /* dim cards */
-  .dcard{grid-template-columns:58px 1fr;}
-  .dwn{font-size:16px;}
-  .db{padding:14px 15px;}
+  .dcard{grid-template-columns:52px 1fr;}
+  .dwn{font-size:15px;}
+  .db{padding:13px 13px;}
+  .dbn{font-size:13px;}
+  .dbd{font-size:11.5px;}
 
   /* formula / code */
-  .fbox{font-size:11px;padding:17px 14px;}
-  .code-block{font-size:11px;padding:16px 14px;}
+  .fbox{font-size:10.5px;padding:14px 13px;line-height:1.8;}
+  .code-block{font-size:10.5px;padding:14px 13px;line-height:1.8;}
+
+  /* tables — always scrollable */
+  .tw{margin:16px -4px;}
+  .ctable{font-size:12px;}
+  .ctable th{font-size:8px;padding:8px 10px;}
+  .ctable td{padding:8px 10px;}
+  .stable{font-size:11.5px;}
+  .stable th{font-size:7.5px;padding:8px 9px;}
+  .stable td{padding:8px 9px;}
+  .spec-table{font-size:11.5px;}
+  .spec-table th{font-size:7.5px;padding:8px 9px;}
+  .spec-table td{padding:8px 9px;}
+
+  /* roadmap */
+  .rmc{padding:10px 0 26px;}
+  .rmt{font-size:13.5px;}
+  .rmul{font-size:12px;}
+
+  /* footer */
+  .footer{padding:44px 16px;margin-top:56px;}
+  .ftsym{font-size:32px;}
+  .ftn{font-size:14px;letter-spacing:.18em;}
+  .ftq{font-size:13px;}
+  .ften{font-size:9.5px;}
+  .ftmeta{font-size:8.5px;line-height:2;}
+
+  /* section spacing */
+  .sec{margin-bottom:56px;}
 }
 
 /* ─ Small mobile: ≤ 480px ─ */
 @media(max-width:480px){
 
   /* cover */
-  .c-title{font-size:34px;}
-  .kamon{width:48px;height:48px;}
-  .c-tag{font-size:15px;}
-  .c-meta{gap:14px;}
+  .c-title{font-size:32px;}
+  .kamon{width:44px;height:44px;margin-bottom:20px;}
+  .c-tag{font-size:14px;}
+  .c-meta{gap:8px;flex-wrap:wrap;}
+  .c-meta-item{flex:1 1 40%;}
 
   /* typography */
   body{font-size:14px;}
-  .lead{font-size:14px;}
-  h3{font-size:15px;}
+  .lead{font-size:14px;line-height:1.8;}
+  h3{font-size:13.5px;}
 
-  /* virtues row */
-  .v{min-width:calc(33.33% - 1px);flex:none;padding:13px 4px;}
-  .vk{font-size:21px;}
-  .ve{font-size:8.5px;}
+  /* virtues row — 4 across, then wrap */
+  .v{flex:1 0 calc(25% - 1px);padding:12px 3px;}
+  .vk{font-size:19px;}
+  .vr{font-size:6.5px;}
+  .ve{font-size:7.5px;}
 
   /* grids */
   .sgrid{grid-template-columns:1fr;}
@@ -331,29 +395,67 @@ p{margin-bottom:17px;color:#282420;}
   .pgrid{grid-template-columns:1fr;}
 
   /* bridge */
-  .brjp{font-size:18px;}
-  .brdesc{font-size:12.5px;}
+  .brbtn{font-size:8px;padding:9px 14px;}
+
+  /* dim cards — stack weight + content */
+  .dcard{grid-template-columns:48px 1fr;}
+  .dwn{font-size:13px;}
+  .dwl{font-size:6.5px;}
+
+  /* callout */
+  .ctjp{font-size:13.5px;}
+
+  /* formula / code */
+  .fbox{font-size:9.5px;padding:12px 11px;}
+  .code-block{font-size:9.5px;padding:12px 11px;}
 
   /* tables */
-  .spec-table{font-size:11.5px;}
-  .spec-table th{font-size:8px;padding:8px 10px;}
-  .spec-table td{padding:8px 10px;}
-  .ctable{font-size:12px;}
-  .stable{font-size:11.5px;}
+  .spec-table{font-size:10.5px;}
+  .spec-table th{font-size:7.5px;padding:7px 8px;}
+  .spec-table td{padding:7px 8px;}
+  .ctable{font-size:11px;}
+  .stable{font-size:10.5px;}
+
+  /* const grid */
+  .const-key{font-size:7.5px;}
+  .const-val{font-size:15px;}
+
+  /* pog hero */
+  .pht{font-size:26px;}
+  .phen{font-size:10px;letter-spacing:.12em;}
+  .phsub{font-size:12px;}
+
+  /* spec hero */
+  .spec-title{font-size:20px;}
+  .spec-desc{font-size:12px;}
 
   /* footer */
-  .footer{padding:40px 16px;}
-  .ftsym{font-size:32px;}
-  .ftn{font-size:14px;}
+  .footer{padding:36px 14px;}
 }
 
 /* ─ Extra small: ≤ 360px ─ */
 @media(max-width:360px){
-  .c-title{font-size:28px;}
-  .v{min-width:calc(50% - 1px);}
-  .pn{font-size:34px;}
-  .spec-title{font-size:20px;}
-  .sn{font-size:26px;}
+  .c-title{font-size:26px;}
+  .c-eye{letter-spacing:.12em;font-size:8px;}
+
+  /* virtues — 4 across even on tiny screens */
+  .v{flex:1 0 calc(25% - 1px);padding:10px 2px;}
+  .vk{font-size:17px;}
+  .vr{display:none;}
+  .ve{font-size:7px;}
+
+  .pn{font-size:30px;}
+  .sn{font-size:24px;}
+
+  /* code even smaller */
+  .fbox{font-size:8.5px;}
+  .code-block{font-size:8.5px;}
+
+  /* nav logo truncate */
+  .nav-logo{font-size:11px;}
+
+  .spec-title{font-size:18px;}
+  .pht{font-size:22px;}
 }
 </style>
 </head>
@@ -364,7 +466,7 @@ p{margin-bottom:17px;color:#282420;}
   <div class="nav-logo" onclick="go('home')">⚔ BushiDAO</div>
   <div class="nav-links">
     <button class="nbtn on" id="t-home" onclick="go('home')">Home</button>
-    <button class="nbtn" id="t-s01" onclick="go('home','sec01')">名前</button>
+    <button class="nbtn" id="t-s01" onclick="go('home','sec01')">武士道</button>
     <button class="nbtn" id="t-s02" onclick="go('home','sec02')">概要</button>
     <button class="nbtn" id="t-s03" onclick="go('home','sec03')">武士道2.0</button>
     <button class="nbtn" id="t-s04" onclick="go('home','sec04')">ビジョン</button>
@@ -376,7 +478,7 @@ p{margin-bottom:17px;color:#282420;}
 
 <div class="mob" id="mob">
   <button class="nbtn" onclick="go('home');toggleMob()">Home</button>
-  <button class="nbtn" onclick="go('home','sec01');toggleMob()">名前の話</button>
+  <button class="nbtn" onclick="go('home','sec01');toggleMob()">なぜ武士道か</button>
   <button class="nbtn" onclick="go('home','sec02');toggleMob()">概要</button>
   <button class="nbtn" onclick="go('home','sec03');toggleMob()">武士道2.0</button>
   <button class="nbtn" onclick="go('home','sec04');toggleMob()">ビジョン</button>
@@ -429,17 +531,41 @@ p{margin-bottom:17px;color:#282420;}
     <section class="sec" id="sec01">
       <div class="sh">
         <div class="sn">01</div>
-        <div><span class="slbl">Chapter One</span><div class="sjp">名前の話から始めよう</div><div class="sen">It Starts with the Name</div></div>
+        <div><span class="slbl">Chapter One</span><div class="sjp">なぜ今、武士道か？</div><div class="sen">Why Bushido, Why Now?</div></div>
       </div>
-      <p class="lead">「BushiDAO」という名前を最初に聞いたとき、何かひっかかりませんでしたか？語呂がいい。口に出すと気持ちいい。そして少し考えていると、あることに気づきます。</p>
-      <p class="lead-en">When you first heard "BushiDAO", something probably clicked. The sound is good. It rolls off the tongue. And as you sit with it, something becomes clear.</p>
+      <p class="lead">日本には、古くから様々な物事を極め、「道」へと昇華させてきた文化がある。</p>
+      <p class="lead-en">Japan has long held a culture of mastering things and elevating them into a "Way" — a path of life.</p>
+
+      <div class="hl gold">
+        <p style="margin:0;font-family:'Noto Serif JP',serif;font-size:15px;line-height:2;">
+          柔道、剣道、弓道、合気道などの<strong>武道</strong>。<br>
+          茶道、華道、香道、書道などの<strong>芸道</strong>。<br>
+          そして、精神的な在り方としての<strong>武士道</strong>。
+        </p>
+        <p style="margin:9px 0 0;font-size:12px;color:var(--smoke);font-style:italic;line-height:1.8;">
+          Judo, Kendo, Kyudo, Aikido — the martial ways.<br>
+          Sado, Kado, Kodo, Shodo — the cultural arts.<br>
+          And Bushido — the way of living with spirit.
+        </p>
+      </div>
+
+      <p>これらに共通するのは、単なる技術の習得ではない。<strong>「どう生きるか」</strong>——その問いを深め続けることを大切にしてきた。技の先に、人格がある。</p>
+      <p class="lead-en">What unites them is not mere technique. They all ask: <em>how should one live?</em> Beyond skill lies character.</p>
+
       <div class="callout">
         <div class="ci">⚔</div>
-        <div class="ctjp">忍者にはすでにNinja DAOがある。じゃあ侍は？「侍DAO」より……「武士DAO」。しっくりくる。</div>
-        <div class="cten">Ninja already has Ninja DAO. So what about the samurai? "Samurai DAO" feels off. "Bushi DAO"... fits.</div>
+        <div class="ctjp">義、勇、仁、礼、誠、名誉、忠義——武士道が説くこの七つの徳は、過去のものではない。AI時代を生き抜くための哲学として、今こそ新しい意味を持つ。</div>
+        <div class="cten">Righteousness, Courage, Benevolence, Respect, Honesty, Honor, Loyalty — the seven virtues of Bushido are not relics. They carry new meaning as a philosophy for navigating the AI age.</div>
       </div>
-      <p>武道を通じて世界5億人がその文化に触れている。コカ・コーラとペプシのように、ナイキとアディダスのように——Ninja DAOと並ぶ存在として「武士DAO」が世界に立てるとしたら？</p>
-      <p class="lead-en">500 million people worldwide have touched this culture through martial arts. What if BushiDAO could stand alongside Ninja DAO the way Coke stands with Pepsi, or Nike with Adidas?</p>
+
+      <p>知識や技術は、今や誰でも手に入るようになりつつある。だからこそ、<strong>どんな価値観を持ち、どう行動するか</strong>がこれまで以上に問われる時代になった。</p>
+      <p class="lead-en">Knowledge and technique are increasingly available to anyone. That's precisely why the values you hold — and how you act on them — matter more than ever before.</p>
+
+      <p>私たちは、武士道を過去のものとは考えていない。<br>現代を生きるための哲学として捉えている。<br>それが、私たちの考える<strong>「武士道2.0」</strong>である。</p>
+      <p class="lead-en">We do not see Bushido as something of the past. We see it as a philosophy for living in the present — and the future. That is what we call <strong>Bushido 2.0</strong>.</p>
+
+      <p>そして武道を通じ、世界5億人がこの文化に触れている。BushiDAOは、その精神をデジタルの時代に受け継ぐ場所である。</p>
+      <p class="lead-en">Through martial arts alone, 500 million people around the world have touched this culture. BushiDAO is the place to carry that spirit forward into the digital age.</p>
     </section>
 
     <!-- 02 概要 -->
@@ -748,7 +874,7 @@ p{margin-bottom:17px;color:#282420;}
           <div class="rmdc"><div class="rmd act">→</div></div>
           <div class="rmc">
             <div class="rmph">Phase 1 — 準備完了 / Ready</div>
-            <div class="rmt">アクティブ監視＆評価 · コミュニティ拡大</div>
+            <div class="rmt">アクティブ見守り＆評価 · コミュニティ拡大</div>
             <ul class="rmul">
               <li>JST 深夜0時の自動日次評価（全コミュニティチャンネル）</li>
               <li>リアルタイムパターン検出 ＋ 品質ゲート通過後のリーダーボード更新</li>
@@ -1098,11 +1224,11 @@ SECURITY_BONUS_REPORT  = <span class="nm">10</span>    <span class="cm"># 詳細
           <tr><td>スパムレート制限</td><td>1時間あたり投稿数カウント</td><td><span class="flag-high">HIGH</span></td><td>即時ブロック</td></tr>
           <tr><td>コピペ検出</td><td>コサイン類似度 &gt;85%</td><td><span class="flag-high">HIGH</span></td><td>即時ブロック</td></tr>
           <tr><td>絵文字ファーミング防止</td><td>テキストトークン数チェック</td><td><span class="flag-med">MED</span></td><td>スコア強制0</td></tr>
-          <tr><td>長さ急変検出</td><td>30日間の変動係数</td><td><span class="flag-med">MED</span></td><td>フラグ + 監視強化</td></tr>
+          <tr><td>長さ急変検出</td><td>30日間の変動係数</td><td><span class="flag-med">MED</span></td><td>フラグ + 見守り強化</td></tr>
           <tr><td>キーワード詰め込み</td><td>キーワード密度 15%超</td><td><span class="flag-med">MED</span></td><td>スコア補正 ×0.6</td></tr>
           <tr><td>自己返信ループ</td><td>自己返信率 30%超</td><td><span class="flag-high">HIGH</span></td><td>フラグ + 管理者通知</td></tr>
           <tr><td>日次上限</td><td>累積ポイント100pt/日</td><td><span class="flag-low">LOW</span></td><td>上限到達後は付与停止</td></tr>
-          <tr><td>深夜ボット監視</td><td>JST 0〜5時の活動パターン</td><td><span class="flag-med">MED</span></td><td>スコア補正 ×0.7</td></tr>
+          <tr><td>深夜ボット見守り</td><td>JST 0〜5時の活動パターン</td><td><span class="flag-med">MED</span></td><td>スコア補正 ×0.7</td></tr>
         </tbody>
       </table></div>
     </section>
@@ -1119,7 +1245,7 @@ SECURITY_BONUS_REPORT  = <span class="nm">10</span>    <span class="cm"># 詳細
 <span class="kw">on_event</span>(<span class="st">"message"</span>, channel_whitelist=MONITORED_CHANNELS):
   <span class="kw">async function</span> <span class="fn">handle_message</span>(event):
 
-    <span class="cm"># DM・ボット・監視外チャンネルは無視</span>
+    <span class="cm"># DM・ボット・対象外チャンネルは無視</span>
     <span class="kw">if</span> event.is_dm <span class="kw">or</span> event.author.is_bot: <span class="kw">return</span>
     <span class="kw">if</span> event.channel_id <span class="kw">not in</span> MONITORED_CHANNELS: <span class="kw">return</span>
 
